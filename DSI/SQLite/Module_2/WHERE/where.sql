@@ -1,37 +1,29 @@
--- SELECT
+-- WHERE
 
+SELECT * FROM customer
+WHERE customer_id = 1
+OR customer_id =2;
 
--- select everything from the customer TABLE
-SELECT 
-*
-FROM customer;
+-- IN
+SELECT * FROM customer
+WHERE customer_id IN (3,4,5)
+OR customer_postal_code IN ('M4H', 'M1L');
 
--- use sql as a calculator
-SELECT 1+1, 10*4, pi(), 13/3
+-- like
+-- all the peppers
+SELECT * FROM product
+WHERE product_name LIKE '%pepper%';
 
+-- customer with a last name starting with a
+SELECT * FROM customer
+WHERE customer_last_name LIKE 'a%';
 
--- add a static value 
-SELECT 2025 AS this_year, 'AUGUST' AS this_month, customer_id
-FROM customer;
+-- NULLS and Blanks
+SELECT * FROM product
+WHERE product_size IS NULL
+OR product_size = ''; --two single quotes, "blanks" different from nulls
 
--- add an order by and LIMIT
+-- between another option
 SELECT *
 FROM customer
-ORDER BY customer_first_name
-LIMIT 10;
-
--- select multiple columns
-SELECT customer_id, customer_first_name
-FROM customer;
-
-
-
-
-
-
-
-
-
-
-
-
+WHERE customer_id BETWEEN 1 AND 20
