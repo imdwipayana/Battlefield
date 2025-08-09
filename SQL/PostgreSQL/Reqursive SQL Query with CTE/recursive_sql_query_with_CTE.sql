@@ -114,5 +114,21 @@ SELECT
 	*
 FROM employee_hierarchy
 WHERE full_name IS NULL
+--------------------------------------------------------
+SELECT
+*
+FROM employee_hierarchy
+ORDER BY full_name
+LIMIT 10
+
+SELECT
+*
+FROM(
+SELECT
+*
+FROM employee_hierarchy
+LIMIT 10
+)
+ORDER BY full_name
 
 
