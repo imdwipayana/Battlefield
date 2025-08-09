@@ -133,6 +133,7 @@ ORDER BY vendor_name, market_date;
 at the farmer’s market by counting the vendor booth assignments per vendor_id. */
 
 SELECT
+	vendor_id,
 	COUNT(vendor_id) as number_rented
 FROM vendor_booth_assignments
 GROUP BY vendor_id;
