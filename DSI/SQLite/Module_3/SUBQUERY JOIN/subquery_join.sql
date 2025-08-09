@@ -1,39 +1,26 @@
--- HAVING
+-- subqueries: JOIN
 
--- how much did a customer spend on each day
-SELECT
-market_date,
-customer_id,
-SUM(quantity*cost_to_customer_per_qty) as total_cost
-FROM customer_purchases -- first
-WHERE customer_id BETWEEN 1 AND 5 -- filtering the non-aggregated values -- second
-GROUP BY market_date, customer_id -- third
-HAVING total_cost > 50; -- filtering the aggregated values -- fourth
+-- " what is the single item that has been bought in the gratest quantity.
 
--- how many product were bought?
+SELECT product_name,
+MAX(quantity_purchased)
 
-SELECT
-COUNT(product_id) AS number_of_products,
-product_id
-
+FROM product as p
+INNER JOIN (
+SELECT product_id,
+COUNT(quantity) as quantity_purchased
+--, case when type of the product is unit then sum else count
 FROM customer_purchases
-WHERE product_id <= 8
 GROUP BY product_id
-HAVING count(product_id) BETWEEN 300 AND 500
+)x ON p.product_id = x.product_id;
 
-
-SELECT
-COUNT(product_id) AS number_of_products,
-product_id
-
+-- simple subquery in a FROM statement "inflation"
+SELECT DISTINCT product_id, inflation
+FROM (
+SELECT product_id,
+cost_to_customer_per_qty,
+CASE
+	WHEN cost_to_customer_per_qty < '1.00' THEN cost_to_customer_per_qty*5
+	ELSE cost_to_customer_per_qty END AS inflation
 FROM customer_purchases
-WHERE product_id <= 8
-GROUP BY product_id
-HAVING number_of_products BETWEEN 300 AND 500
-
-
-
-
-
-
-
+)
