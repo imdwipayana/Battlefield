@@ -9,8 +9,6 @@ SELECT
 	*
 FROM customer;
 
-
-
 /* 2. Write a query that displays all of the columns and 10 rows from the customer table, 
 sorted by customer_last_name, then customer_first_ name. */
 
@@ -35,7 +33,6 @@ LEFT JOIN product AS p
 ON p.product_id = cp.product_id
 WHERE p.product_id = 4 OR p.product_id = 9
 
-
 -- option 2
 
 SELECT
@@ -47,7 +44,6 @@ LEFT JOIN customer_purchases AS cp
 ON cp.customer_id = c.customer_id
 INNER JOIN (SELECT * FROM product WHERE product_id IN (4,9)) AS p
 ON p.product_id = cp.product_id
-
 
 /*2. Write a query that returns all customer purchases and a new calculated column 'price' (quantity * cost_to_customer_per_qty), 
 filtered by vendor IDs between 8 and 10 (inclusive) using either:
@@ -85,28 +81,26 @@ ON p.product_id = cp.product_id
 INNER JOIN (SELECT * FROM vendor WHERE vendor_id BETWEEN 8 AND 10) AS v
 ON v.vendor_id = cp.vendor_id
 
-
 --CASE
 /* 1. Products can be sold by the individual unit or by bulk measures like lbs. or oz. 
 Using the product table, write a query that outputs the product_id and product_name
 columns and add a column called prod_qty_type_condensed that displays the word “unit” 
 if the product_qty_type is “unit,” and otherwise displays the word “bulk.” */
-(OK1)
+
 SELECT
 	product_id,
 	product_name,
 	CASE
 		WHEN product_qty_type = 'unit' THEN 'unit'
+		WHEN product_qty_type IS NULL THEN 'unknown'
 		ELSE 'bulk'
 	END AS prod_qty_type
 FROM product
 
-
-
 /* 2. We want to flag all of the different types of pepper products that are sold at the market. 
 add a column to the previous query called pepper_flag that outputs a 1 if the product_name 
 contains the word “pepper” (regardless of capitalization), and otherwise outputs 0. */
-(OK1)
+
 SELECT
 	product_id,
 	product_name,
@@ -124,7 +118,7 @@ FROM product
 --JOIN
 /* 1. Write a query that INNER JOINs the vendor table to the vendor_booth_assignments table on the 
 vendor_id field they both have in common, and sorts the result by vendor_name, then market_date. */
-(OK1)
+
 SELECT
 	*
 FROM vendor as v
@@ -137,19 +131,18 @@ ORDER BY vendor_name, market_date
 -- AGGREGATE
 /* 1. Write a query that determines how many times each vendor has rented a booth 
 at the farmer’s market by counting the vendor booth assignments per vendor_id. */
-(OK1)
+
 SELECT
 	COUNT(vendor_id) as number_rented
 FROM vendor_booth_assignments
 GROUP BY vendor_id
-
 
 /* 2. The Farmer’s Market Customer Appreciation Committee wants to give a bumper 
 sticker to everyone who has ever spent more than $2000 at the market. Write a query that generates a list 
 of customers for them to give stickers to, sorted by last name, then first name. 
 
 HINT: This query requires you to join two tables, use an aggregate function, and use the HAVING keyword. */
-(OK1)
+
 SELECT
 	c.customer_last_name,
 	c.customer_first_name
@@ -177,6 +170,7 @@ When inserting the new vendor, you need to appropriately align the columns to be
 -> To insert the new row use VALUES, specifying the value you want for each column:
 VALUES(col1,col2,col3,col4,col5) 
 */
+
 DROP TABLE IF EXISTS temp.new_vendor;
 CREATE TABLE temp.new_vendor AS 
 	SELECT
@@ -188,30 +182,27 @@ VALUES(10, 'Thomass Superfood Store', 'a Fresh Focused store', 'Thomas', 'Rosent
 
 SELECT * FROM temp.new_vendor;
 
-
 -- Date
 /*1. Get the customer_id, month, and year (in separate columns) of every purchase in the customer_purchases table.
 
 HINT: you might need to search for strfrtime modifers sqlite on the web to know what the modifers for month 
 and year are! */
-(OK1)
+
 SELECT
 	customer_id,
 	STRFTIME('%m', market_date) AS month_purchase,
 	STRFTIME('%Y', market_date) AS year_purchase
 FROM customer_purchases
 
-
-
 /* 2. Using the previous query as a base, determine how much money each customer spent in April 2022. 
 Remember that money spent is quantity*cost_to_customer_per_qty. 
 
 HINTS: you will need to AGGREGATE, GROUP BY, and filter...
 but remember, STRFTIME returns a STRING for your WHERE statement!! */
-(OK1)
+
 SELECT
 	customer_id,
-	SUM(customer_id) AS each_customer_purchase
+	SUM(customer_purchase) AS each_customer_purchase
 FROM (
 SELECT
 	customer_id,
