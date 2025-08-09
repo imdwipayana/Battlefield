@@ -1,35 +1,86 @@
--- HAVING
+-- MIN & max
 
--- how much did a customer spend on each day
-SELECT
-market_date,
-customer_id,
-SUM(quantity*cost_to_customer_per_qty) as total_cost
-FROM customer_purchases -- first
-WHERE customer_id BETWEEN 1 AND 5 -- filtering the non-aggregated values -- second
-GROUP BY market_date, customer_id -- third
-HAVING total_cost > 50; -- filtering the aggregated values -- fourth
-
--- how many product were bought?
+-- what is the most expensive product 
 
 SELECT
-COUNT(product_id) AS number_of_products,
-product_id
+p.product_name,
+MAX(original_price) AS most_expensive
+FROM product AS p
+INNER JOIN vendor_inventory AS vi
+ON p.product_id = vi.product_id;
 
-FROM customer_purchases
-WHERE product_id <= 8
-GROUP BY product_id
-HAVING count(product_id) BETWEEN 300 AND 500
+-- prove it
+SELECT DISTINCT
+product_name,
+original_price
+FROM product AS p
+INNER JOIN vendor_inventory as vi
+ON p.product_id = vi.product_id
+ORDER BY original_price DESC;
 
-
+-- minimum price per each product_qty_type
 SELECT
-COUNT(product_id) AS number_of_products,
-product_id
+product_name,
+product_qty_type,
+MIN(original_price) AS least_expensive
 
-FROM customer_purchases
-WHERE product_id <= 8
-GROUP BY product_id
-HAVING number_of_products BETWEEN 300 AND 500
+FROM product AS p
+INNER JOIN vendor_inventory as vi
+ON p.product_id = vi.product_id
+GROUP BY product_qty_type
+ORDER BY product_qty_type ASC, original_price ASC;
+
+--prove it
+SELECT DISTINCT
+product_name,
+product_qty_type,
+original_price
+
+FROM product AS p
+INNER JOIN vendor_inventory AS vi
+ON p.product_id = vi.product_id
+ORDER BY product_qty_type, original_price
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
