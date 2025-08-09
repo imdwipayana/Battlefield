@@ -31,7 +31,7 @@ LEFT JOIN customer_purchases AS cp
 ON cp.customer_id = c.customer_id
 LEFT JOIN product AS p
 ON p.product_id = cp.product_id
-WHERE p.product_id = 4 OR p.product_id = 9
+WHERE p.product_id = 4 OR p.product_id = 9;
 
 -- option 2
 
@@ -43,7 +43,7 @@ FROM customer AS c
 LEFT JOIN customer_purchases AS cp
 ON cp.customer_id = c.customer_id
 INNER JOIN (SELECT * FROM product WHERE product_id IN (4,9)) AS p
-ON p.product_id = cp.product_id
+ON p.product_id = cp.product_id;
 
 /*2. Write a query that returns all customer purchases and a new calculated column 'price' (quantity * cost_to_customer_per_qty), 
 filtered by vendor IDs between 8 and 10 (inclusive) using either:
@@ -79,7 +79,7 @@ ON cp.customer_id = c.customer_id
 LEFT JOIN product AS p
 ON p.product_id = cp.product_id
 INNER JOIN (SELECT * FROM vendor WHERE vendor_id BETWEEN 8 AND 10) AS v
-ON v.vendor_id = cp.vendor_id
+ON v.vendor_id = cp.vendor_id;
 
 --CASE
 /* 1. Products can be sold by the individual unit or by bulk measures like lbs. or oz. 
@@ -95,7 +95,7 @@ SELECT
 		WHEN product_qty_type IS NULL THEN 'unknown'
 		ELSE 'bulk'
 	END AS prod_qty_type
-FROM product
+FROM product;
 
 /* 2. We want to flag all of the different types of pepper products that are sold at the market. 
 add a column to the previous query called pepper_flag that outputs a 1 if the product_name 
@@ -113,7 +113,7 @@ SELECT
 		WHEN product_name LIKE '%pepper%' THEN 1
 		ELSE 0
 	END AS pepper_flag
-FROM product
+FROM product;
 
 --JOIN
 /* 1. Write a query that INNER JOINs the vendor table to the vendor_booth_assignments table on the 
@@ -124,7 +124,7 @@ SELECT
 FROM vendor as v
 INNER JOIN vendor_booth_assignments as vba
 ON vba.vendor_id = v.vendor_id
-ORDER BY vendor_name, market_date
+ORDER BY vendor_name, market_date;
 
 /* SECTION 3 */
 
@@ -135,7 +135,7 @@ at the farmer’s market by counting the vendor booth assignments per vendor_id.
 SELECT
 	COUNT(vendor_id) as number_rented
 FROM vendor_booth_assignments
-GROUP BY vendor_id
+GROUP BY vendor_id;
 
 /* 2. The Farmer’s Market Customer Appreciation Committee wants to give a bumper 
 sticker to everyone who has ever spent more than $2000 at the market. Write a query that generates a list 
@@ -156,7 +156,7 @@ FROM (
 ) AS cs
 LEFT JOIN customer AS c
 ON c.customer_id = cs.customer_id
-ORDER BY c.customer_last_name, c.customer_first_name
+ORDER BY c.customer_last_name, c.customer_first_name;
 
 
 --Temp Table
@@ -192,7 +192,7 @@ SELECT
 	customer_id,
 	STRFTIME('%m', market_date) AS month_purchase,
 	STRFTIME('%Y', market_date) AS year_purchase
-FROM customer_purchases
+FROM customer_purchases;
 
 /* 2. Using the previous query as a base, determine how much money each customer spent in April 2022. 
 Remember that money spent is quantity*cost_to_customer_per_qty. 
@@ -212,5 +212,5 @@ SELECT
 FROM customer_purchases
 WHERE month_purchase = '04' AND year_purchase = '2022'
 )
-GROUP BY customer_id
+GROUP BY customer_id;
 
