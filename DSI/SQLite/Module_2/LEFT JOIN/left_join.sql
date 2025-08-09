@@ -1,38 +1,55 @@
--- INNER JOIN
+--- LEFT JOIN
 
--- INNER JOIN without as alias
+-- there are product that have been bought, but are there products that have not been bought?
 
--- get product names alongside customer purchases --- only products that a customer has purchased
-SELECT
-	product_name, -- come from product TABLE
-	vendor_id,
-	market_date,
-	customer_id,
-	customer_purchases.product_id
-FROM product
-INNER JOIN customer_purchases
-ON customer_purchases.product_id = product.product_id;
+SELECT DISTINCT
+p.product_id,
+cp.product_id AS [cp.product_id],
+product_name
+FROM product AS p
+LEFT JOIN customer_purchases AS cp
+ON p.product_id = cp.product_id
+WHERE cp.product_id IS NULL -- only show product ids that have not been sold
 
+-- direction matter
+-- this shows ONLY products that have been sold...because there are no products id in cp that AREN'T in product
+SELECT DISTINCT
+p.product_id,
+cp.product_id,
+product_name
 
--- which vendor has sold products to a customer AND which product was it AND to whom was it sold.
-SELECT DISTINCT 
-cp.vendor_id,
-c.customer_id,
-c.customer_first_name,
-c.customer_last_name,
-cp.product_id
 FROM customer_purchases AS cp
-INNER JOIN customer AS c
-ON c.customer_id = cp.customer_id
+LEFT JOIN product as p
+ON p.product_id = cp.product_id
 
 
-SELECT
-*
-FROM customer_purchases
 
-SELECT
-*
-FROM customer
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
