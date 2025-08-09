@@ -4,49 +4,50 @@
 
 --SELECT
 /* 1. Write a query that returns everything in the customer table. */
-(OK1)
+
 SELECT	
 	*
-FROM customer
+FROM customer;
 
 
 
-/* 2. Write a query that displays all of the columns and 10 rows from the cus- tomer table, 
+/* 2. Write a query that displays all of the columns and 10 rows from the customer table, 
 sorted by customer_last_name, then customer_first_ name. */
-(OK1)
+
 SELECT 
 	*
 FROM customer
-ORDER BY customer_last_name
+ORDER BY customer_last_name, customer_first_name
 LIMIT 10;
-
-
-SELECT
-	*
-FROM(
-SELECT
-	*
-FROM customer
-ORDER BY customer_id
-LIMIT 10
-) AS Sub
-ORDER BY customer_last_name
 
 --WHERE
 /* 1. Write a query that returns all customer purchases of product IDs 4 and 9. */
+
 -- option 1
 SELECT
-	*
-FROM product
-WHERE product_id = 4 or product_id = 9;
+	c.customer_first_name,
+	c.customer_last_name,
+	p.product_name
+FROM customer AS c
+LEFT JOIN customer_purchases AS cp
+ON cp.customer_id = c.customer_id
+LEFT JOIN product AS p
+ON p.product_id = cp.product_id
+WHERE p.product_id = 4 OR p.product_id = 9
 
 
 -- option 2
 
 SELECT
-	*
-FROM product
-WHERE product_id  IN (4,9);
+	c.customer_first_name,
+	c.customer_last_name,
+	p.product_name
+FROM customer AS c
+LEFT JOIN customer_purchases AS cp
+ON cp.customer_id = c.customer_id
+INNER JOIN (SELECT * FROM product WHERE product_id IN (4,9)) AS p
+ON p.product_id = cp.product_id
+
 
 /*2. Write a query that returns all customer purchases and a new calculated column 'price' (quantity * cost_to_customer_per_qty), 
 filtered by vendor IDs between 8 and 10 (inclusive) using either:
@@ -54,29 +55,35 @@ filtered by vendor IDs between 8 and 10 (inclusive) using either:
 	2.  one condition using BETWEEN
 */
 -- option 1
-SELECT
-	*,
-	quantity * cost_to_customer_per_qty AS price
-FROM product
-WHERE 
-
-SELECT
-*
-FROM product
-
-
-SELECT
-*
-FROM vendor
-WHERE vendor_id >= 8 AND vendor_id <= 10
-
-SELECT
-*
-FROM vendor
-WHERE vendor_id BETWEEN 8 AND 10
+SELECT DISTINCT
+	v.vendor_id,
+	c.customer_first_name,
+	c.customer_last_name,
+	p.product_name,
+	cp.quantity * cp.cost_to_customer_per_qty AS customer_spending
+FROM customer AS c
+LEFT JOIN customer_purchases AS cp
+ON cp.customer_id = c.customer_id
+LEFT JOIN product AS p
+ON p.product_id = cp.product_id
+LEFT JOIN vendor AS v
+ON v.vendor_id = cp.vendor_id
+WHERE v.vendor_id >= 8 AND v.vendor_id <= 10;
 
 -- option 2
-
+SELECT DISTINCT
+	v.vendor_id,
+	c.customer_first_name,
+	c.customer_last_name,
+	p.product_name,
+	cp.quantity * cp.cost_to_customer_per_qty AS customer_spending
+FROM customer AS c
+LEFT JOIN customer_purchases AS cp
+ON cp.customer_id = c.customer_id
+LEFT JOIN product AS p
+ON p.product_id = cp.product_id
+INNER JOIN (SELECT * FROM vendor WHERE vendor_id BETWEEN 8 AND 10) AS v
+ON v.vendor_id = cp.vendor_id
 
 
 --CASE
@@ -170,7 +177,16 @@ When inserting the new vendor, you need to appropriately align the columns to be
 -> To insert the new row use VALUES, specifying the value you want for each column:
 VALUES(col1,col2,col3,col4,col5) 
 */
+DROP TABLE IF EXISTS temp.new_vendor;
+CREATE TABLE temp.new_vendor AS 
+	SELECT
+		*
+	FROM vendor;
 
+INSERT INTO temp.new_vendor
+VALUES(10, 'Thomass Superfood Store', 'a Fresh Focused store', 'Thomas', 'Rosenthal');
+
+SELECT * FROM temp.new_vendor;
 
 
 -- Date
