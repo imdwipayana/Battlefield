@@ -1,39 +1,28 @@
--- HAVING
+-- subqueries: WHERE 
+-- how much did each customer spend at each vendor for each day at the market WHEN IT RAINS
 
--- how much did a customer spend on each day
 SELECT
 market_date,
 customer_id,
-SUM(quantity*cost_to_customer_per_qty) as total_cost
-FROM customer_purchases -- first
-WHERE customer_id BETWEEN 1 AND 5 -- filtering the non-aggregated values -- second
-GROUP BY market_date, customer_id -- third
-HAVING total_cost > 50; -- filtering the aggregated values -- fourth
-
--- how many product were bought?
-
-SELECT
-COUNT(product_id) AS number_of_products,
-product_id
-
+vendor_id,
+SUM(quantity*cost_to_customer_per_qty) AS total_cost
 FROM customer_purchases
-WHERE product_id <= 8
-GROUP BY product_id
-HAVING count(product_id) BETWEEN 300 AND 500
+--filter by rain_flag
+--"what dates was it raining"
+WHERE market_date IN (
+SELECT market_date
+FROM market_date_info
+WHERE market_rain_flag = 1
+)
+GROUP BY market_date, customer_id, vendor_id;
 
-
-SELECT
-COUNT(product_id) AS number_of_products,
-product_id
-
-FROM customer_purchases
-WHERE product_id <= 8
-GROUP BY product_id
-HAVING number_of_products BETWEEN 300 AND 500
-
-
-
-
-
-
-
+-- what is the name of the vendor who sells pie
+SELECT DISTINCT vendor_name
+FROM vendor as v
+INNER JOIN vendor_inventory as vi
+ON v.vendor_id = vi.vendor_id
+WHERE product_id IN (
+SELECT product_id
+FROM product
+WHERE product_name LIKE '%pie%'
+)
