@@ -1,39 +1,19 @@
--- HAVING
+-- SUM avg
+-- how much did a customer spend each day
 
--- how much did a customer spend on each day
 SELECT
 market_date,
 customer_id,
 SUM(quantity*cost_to_customer_per_qty) as total_cost
-FROM customer_purchases -- first
-WHERE customer_id BETWEEN 1 AND 5 -- filtering the non-aggregated values -- second
-GROUP BY market_date, customer_id -- third
-HAVING total_cost > 50; -- filtering the aggregated values -- fourth
-
--- how many product were bought?
-
-SELECT
-COUNT(product_id) AS number_of_products,
-product_id
-
 FROM customer_purchases
-WHERE product_id <= 8
-GROUP BY product_id
-HAVING count(product_id) BETWEEN 300 AND 500
+GROUP BY market_date, customer_id
 
-
+-- how much does each customer spend on average
 SELECT
-COUNT(product_id) AS number_of_products,
-product_id
-
-FROM customer_purchases
-WHERE product_id <= 8
-GROUP BY product_id
-HAVING number_of_products BETWEEN 300 AND 500
-
-
-
-
-
-
-
+customer_first_name,
+customer_last_name,
+ROUND(AVG(quantity*cost_to_customer_per_qty),2) as total_cost
+FROM customer_purchases as cp
+INNER JOIN customer as c
+ON cp.customer_id = c.customer_id
+GROUP BY c.customer_id
