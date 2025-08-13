@@ -191,8 +191,29 @@ SELECT *,
 	INSTR(product_name, '- ')+2 ,
 	SUBSTR(product_name, INSTR(product_name, '- ') + 2),
   TRIM(SUBSTR(product_name, 1, INSTR(product_name, '- ')-1)) AS product_name_clear,
-  TRIM(SUBSTR(product_name, 1, INSTR(product_name, '- ') - 1)) AS description
+  TRIM(SUBSTR(product_name, INSTR(product_name, '- ') + 2),-1) AS description
 FROM product
+
+
+
+WITH CTE_hypen AS (
+SELECT 
+	*,
+  TRIM(SUBSTR(product_name, 1, INSTR(product_name, '- ') - 1)) AS product_name_clear
+FROM product
+)
+SELECT
+	product_name,
+	CASE
+		WHEN LENGTH(product_name_clear) > 0 THEN product_name_clear
+		ELSE product_name
+	END AS product_name_nonull,
+
+	CASE
+		WHEN LENGTH(product_name_clear) > 0 THEN TRIM(SUBSTR(product_name, INSTR(product_name, '- ') + 2), -1)
+		ELSE ''
+	END AS description
+FROM CTE_hypen
 
 /* 2. Filter the query to show any product_size value that contain a number with REGEXP. */
 
