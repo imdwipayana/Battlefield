@@ -62,17 +62,22 @@ WHERE customer_id = 1 AND product_id = 5
 
 --=======================================
 WITH  CTE_product AS (
-SELECT
-customer_id,
-product_id,
-COUNT() OVER(PARTITION BY customer_id, product_id) as product_bought_number
-FROM customer_purchases
+	SELECT
+		customer_id,
+		product_id,
+		COUNT() OVER(PARTITION BY customer_id, product_id) as product_bought_number
+	FROM customer_purchases
+), CTE_distinct AS (
+   SELECT DISTINCT product_bought_number,
+        customer_id,
+        product_id
+   FROM CTE_product
 )
-SELECT DISTINCT product_bought_number,
-customer_id,
-product_id
-
-FROM CTE_product
+SELECT
+	customer_id,
+	product_id,
+	product_bought_number
+FROM CTE_distinct
 --===========================================
 
 
