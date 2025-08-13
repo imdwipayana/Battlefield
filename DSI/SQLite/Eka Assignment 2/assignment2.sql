@@ -32,7 +32,19 @@ each new market date for each customer, or select only the unique market dates p
 (without purchase details) and number those visits. 
 HINT: One of these approaches uses ROW_NUMBER() and one uses DENSE_RANK(). */
 
+WITH CTE_visit_number AS(
+	SELECT 
+		customer_id,
+		market_date,
+		DENSE_RANK() OVER(PARTITION BY customer_id ORDER BY market_date) as visit_number
+	FROM customer_purchases
+)
 
+SELECT 
+	DISTINCT visit_number,
+	customer_id,
+	market_date
+FROM CTE_visit_number
 
 /* 2. Reverse the numbering of the query from a part so each customer’s most recent visit is labeled 1, 
 then write another query that uses this one as a subquery (or temp table) and filters the results to 
