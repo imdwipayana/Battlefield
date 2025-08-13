@@ -217,6 +217,11 @@ FROM CTE_hypen
 
 /* 2. Filter the query to show any product_size value that contain a number with REGEXP. */
 
+SELECT
+*
+FROM product
+
+SELECT * FROM product WHERE product_size REGEXP '\d'
 
 --=========================================================================================================\
 /* SECTION 3 */
@@ -247,6 +252,14 @@ FROM customer
 SELECT
 *
 FROM vendor_inventory
+WHERE product_id = 1
+ORDER BY market_date
+
+SELECT
+*
+FROM customer_purchases
+WHERE product_id = 1
+Order BY market_date
 
 SELECT
 *
@@ -255,8 +268,21 @@ LEFT JOIN vendor as v
 ON v.vendor_id = vi.vendor_id
 LEFT JOIN product as p
 ON p.product_id = vi.product_id
+WHERE vi.product_id = 1
+Order BY vi.market_date
+
+SELECT
+*
+FROM vendor_inventory as vi
+JOIN vendor as v
+ON v.vendor_id = vi.vendor_id
+JOIN product as p
+ON p.product_id = vi.product_id
+WHERE vi.product_id = 1
+Order BY vi.market_date
 
 --=============================
+WITH CTE_cross_join AS (
 SELECT
 vendor_name,
 product_name
@@ -265,8 +291,96 @@ LEFT JOIN vendor as v
 ON v.vendor_id = vi.vendor_id
 LEFT JOIN product as p
 ON p.product_id = vi.product_id
+WHERE vi.product_id = 1
+Order BY vi.market_date
+)
+SELECT
+*
+FROM CTE_cross_join
+CROSS JOIN customer_purchases
 
 
+
+
+
+--========================================
+-- Example CROSS JOIN
+--========================================
+
+CREATE TABLE products_trial (
+    product_name TEXT
+);
+
+INSERT INTO products_trial (product_name) VALUES
+('Shirt'),
+('Pants');
+
+CREATE TABLE colors_trial (
+    color_name TEXT
+);
+
+INSERT INTO colors_trial (color_name) VALUES
+('Red'),
+('Blue'),
+('Green');
+--==========================================
+SELECT
+    p.product_name,
+    c.color_name
+FROM
+    products_trial AS p
+CROSS JOIN
+    colors_trial AS c;
+
+--=========================================
+
+
+
+-- INSERT
+/*1.  Create a new table "product_units". 
+This table will contain only products where the `product_qty_type = 'unit'`. 
+It should use all of the columns from the product table, as well as a new column for the `CURRENT_TIMESTAMP`.  
+Name the timestamp column `snapshot_timestamp`. */
+
+SELECT
+*,
+CURRENT_TIMESTAMP AS snapshoot_timestamp
+FROM product
+WHERE product_qty_type = 'unit'
+--================================
+DROP TABLE IF EXISTS product_units;
+CREATE TABLE product_units AS
+SELECT
+*,
+CURRENT_TIMESTAMP AS snapshoot_timestamp
+FROM product
+WHERE product_qty_type = 'unit';
+
+SELECT
+*
+FROM product_units;
+
+/*2. Using `INSERT`, add a new row to the product_units table (with an updated timestamp). 
+This can be any product you desire (e.g. add another record for Apple Pie). */
+
+INSERT INTO product_units
+VALUES(7,'Big Apple Pie', '20 inch', 3, 'unit', CURRENT_TIMESTAMP);
+
+SELECT
+	* 
+FROM product_units
+
+-- DELETE
+/* 1. Delete the older record for the whatever product you added. 
+
+HINT: If you don't specify a WHERE clause, you are going to have a bad time.*/
+
+DELETE FROM product_units 
+WHERE product_name = 'Big Apple Pie';
+
+SELECT
+	*
+FROM product_units;
 
 
 
