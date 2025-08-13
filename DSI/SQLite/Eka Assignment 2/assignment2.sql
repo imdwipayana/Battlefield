@@ -20,7 +20,16 @@ The `||` values concatenate the columns into strings.
 Edit the appropriate columns -- you're making two edits -- and the NULL rows will be fixed. 
 All the other rows will remain the same.) */
 
-
+WITH CTE_no_null AS (
+	SELECT
+		*,
+		COALESCE(product_size, '') as product_size_nonull,
+		COALESCE(product_qty_type, 'unit') as product_qty_type_nonull
+	FROM product
+)
+SELECT 
+	product_name || ', ' || product_size_nonull|| ' (' || product_qty_type_nonull || ')'
+FROM CTE_no_null
 
 --Windowed Functions
 /* 1. Write a query that selects from the customer_purchases table and numbers each customer’s  
