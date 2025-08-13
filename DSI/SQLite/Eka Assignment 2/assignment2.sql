@@ -29,7 +29,7 @@ WITH CTE_no_null AS (
 )
 SELECT 
 	product_name || ', ' || product_size_nonull|| ' (' || product_qty_type_nonull || ')'
-FROM CTE_no_null
+FROM CTE_no_null;
 
 --Windowed Functions
 /* 1. Write a query that selects from the customer_purchases table and numbers each customer’s  
@@ -53,7 +53,7 @@ SELECT
 	DISTINCT visit_number,
 	customer_id,
 	market_date
-FROM CTE_visit_number
+FROM CTE_visit_number;
 
 /* 2. Reverse the numbering of the query from a part so each customer’s most recent visit is labeled 1, 
 then write another query that uses this one as a subquery (or temp table) and filters the results to 
@@ -78,7 +78,7 @@ SELECT
 	customer_id,
 	market_date AS recent_visit
 FROM CTE_distinct_visit
-WHERE visit_number = 1
+WHERE visit_number = 1;
 
 /* 3. Using a COUNT() window function, include a value along with each row of the 
 customer_purchases table that indicates how many different times that customer has purchased that product_id. */
@@ -100,7 +100,7 @@ SELECT
 	customer_id,
 	product_id,
 	product_bought_number
-FROM CTE_distinct
+FROM CTE_distinct;
 
 -- String manipulations
 /* 1. Some product names in the product table have descriptions like "Jar" or "Organic". 
@@ -131,11 +131,14 @@ SELECT
 		WHEN LENGTH(product_name_clear) > 0 THEN TRIM(SUBSTR(product_name, INSTR(product_name, '- ') + 2), -1)
 		ELSE ''
 	END AS description
-FROM CTE_hypen
+FROM CTE_hypen;
 
 /* 2. Filter the query to show any product_size value that contain a number with REGEXP. */
 
-
+SELECT 
+	*
+FROM product 
+WHERE product_size REGEXP '\d';
 
 -- UNION
 /* 1. Using a UNION, write a query that displays the market dates with the highest and lowest total sales.
@@ -179,7 +182,7 @@ UNION
 
 SELECT
 	*
-FROM CTE_sales_maximum
+FROM CTE_sales_maximum;
 
 
 /* SECTION 3 */
