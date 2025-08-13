@@ -198,7 +198,31 @@ Think a bit about the row counts: how many distinct vendors, product names are t
 How many customers are there (y). 
 Before your final group by you should have the product of those two queries (x*y).  */
 
+WITH CTE_vendor AS (
+	SELECT
+		vendor_id,
+		product_id,
+		original_price
+	FROM vendor_inventory
+), CTE_customer AS (
+	SELECT
+		customer_id
+	FROM customer
+), CTE_cross_join AS (
+	SELECT
+		cv.vendor_id,
+		cv.product_id,
+		cv.original_price,
+		cc.customer_id
+	FROM CTE_vendor AS cv
+	CROSS JOIN CTE_customer AS cc
+)
 
+SELECT 
+	DISTINCT product_id,
+	vendor_id,
+	SUM(original_price) OVER(PARTITION BY product_id ORDER BY vendor_id) AS sales_each_product
+FROM CTE_cross_join
 
 -- INSERT
 /*1.  Create a new table "product_units". 
