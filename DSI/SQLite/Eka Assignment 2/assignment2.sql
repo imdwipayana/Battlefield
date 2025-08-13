@@ -257,6 +257,54 @@ Finally, make sure you have a WHERE statement to update the right row,
 	you'll need to use product_units.product_id to refer to the correct row within the product_units table. 
 When you have all of these components, you can run the update statement. */
 
+--===========================================================================================
+-- Create a new column called current_quantity in product_units table
+--===========================================================================================
+ALTER TABLE product_units 
+ADD COLUMN current_quantity INT;
 
+--===========================================================================================
+-- Create a new table called TABLE_update_market contains current_quantity throught 3 CTEs
+--===========================================================================================
+DROP TABLE IF EXISTS TABLE_update_market;
+CREATE TABLE TABLE_update_market AS
+WITH CTE_rank_market_date AS(
+	SELECT
+		*,
+		ROW_NUMBER() OVER(PARTITION BY product_id ORDER BY market_date DESC) as rank_market_date
+	FROM vendor_inventory
+), CTE_last_market_date AS (
+	SELECT
+		*
+	FROM CTE_rank_market_date
+	WHERE rank_market_date = 1
+), CTE_update_market_date AS (
+	SELECT
+		*,
+		COALESCE(clmd.quantity,0) as quantity_nonull
+	FROM product_units as pu
+	LEFT JOIN CTE_last_market_date as clmd
+	ON clmd.product_id = pu.product_id
+)
+
+SELECT
+*
+FROM CTE_update_market_date;
+
+--===============================================================================================================
+-- Update the current_quantity column of product_units table with quantity_nonull column from TABLE_update_market
+--===============================================================================================================
+
+UPDATE product_units AS pu
+SET  current_quantity = tum.quantity_nonull
+FROM TABLE_update_market AS tum
+WHERE pu.product_id = tum.product_id;
+
+--===============================================================================================================
+-- Result of current_quantity column from product_units has been updated succesfully.
+--===============================================================================================================
+SELECT
+	*
+FROM product_units;
 
 
