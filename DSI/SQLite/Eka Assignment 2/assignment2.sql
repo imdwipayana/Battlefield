@@ -80,7 +80,6 @@ SELECT
 FROM CTE_distinct_visit
 WHERE visit_number = 1
 
-
 /* 3. Using a COUNT() window function, include a value along with each row of the 
 customer_purchases table that indicates how many different times that customer has purchased that product_id. */
 
@@ -115,7 +114,24 @@ Remove any trailing or leading whitespaces. Don't just use a case statement for 
 
 Hint: you might need to use INSTR(product_name,'-') to find the hyphens. INSTR will help split the column. */
 
+WITH CTE_hypen AS (
+SELECT 
+	*,
+  TRIM(SUBSTR(product_name, 1, INSTR(product_name, '- ') - 1)) AS product_name_clear
+FROM product
+)
+SELECT
+	product_name,
+	CASE
+		WHEN LENGTH(product_name_clear) > 0 THEN product_name_clear
+		ELSE product_name
+	END AS product_name_nonull,
 
+	CASE
+		WHEN LENGTH(product_name_clear) > 0 THEN TRIM(SUBSTR(product_name, INSTR(product_name, '- ') + 2), -1)
+		ELSE ''
+	END AS description
+FROM CTE_hypen
 
 /* 2. Filter the query to show any product_size value that contain a number with REGEXP. */
 
