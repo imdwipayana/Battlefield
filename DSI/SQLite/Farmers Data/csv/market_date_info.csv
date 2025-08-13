@@ -1,0 +1,151 @@
+market_date,market_day,market_week,market_year,market_start_time,market_end_time,special_notes,market_season,market_min_temp,market_max_temp,market_rain_flag,market_snow_flag
+2022-03-04,Saturday,10,2022,8:00 AM,2:00 PM,,Spring,34,42,0,0
+2022-03-11,Saturday,11,2022,9:00 AM,2:00 PM,,Spring,28,32,0,1
+2022-03-15,Wednesday,12,2022,4:00 PM,7:00 PM,,Spring,52,60,0,0
+2022-03-18,Saturday,12,2022,8:00 AM,2:00 PM,,Spring,33,45,0,0
+2022-03-22,Wednesday,13,2022,4:00 PM,7:00 PM,,Spring,43,51,1,0
+2022-03-25,Saturday,13,2022,8:00 AM,2:00 PM,,Spring,40,46,1,0
+2022-03-29,Wednesday,14,2022,4:00 PM,7:00 PM,,Spring,55,62,0,0
+2022-04-01,Saturday,14,2022,8:00 AM,2:00 PM,,Spring,39,55,1,0
+2022-04-05,Wednesday,15,2022,4:00 PM,7:00 PM,,Spring,33,47,0,0
+2022-04-08,Saturday,15,2022,8:00 AM,2:00 PM,,Spring,50,65,0,0
+2022-04-12,Wednesday,16,2022,4:00 PM,7:00 PM,,Spring,57,65,0,0
+2022-04-15,Saturday,16,2022,8:00 AM,2:00 PM,,Spring,48,55,0,0
+2022-04-19,Wednesday,17,2022,4:00 PM,7:00 PM,,Spring,50,58,0,0
+2022-04-22,Saturday,17,2022,8:00 AM,2:00 PM,,Spring,49,60,0,0
+2022-04-26,Wednesday,18,2022,4:00 PM,7:00 PM,,Spring,51,59,0,0
+2022-04-29,Saturday,18,2022,8:00 AM,2:00 PM,,Spring,51,68,0,0
+2022-05-03,Wednesday,19,2022,4:00 PM,7:00 PM,,Spring,53,59,0,0
+2022-05-06,Saturday,19,2022,8:00 AM,2:00 PM,,Spring,54,64,0,0
+2022-05-10,Wednesday,20,2022,4:00 PM,7:00 PM,,Spring,,,0,0
+2022-05-13,Saturday,20,2022,8:00 AM,2:00 PM,,Spring,,,0,0
+2022-05-17,Wednesday,21,2022,4:00 PM,7:00 PM,,Spring,,,0,0
+2022-05-20,Saturday,21,2022,8:00 AM,2:00 PM,,Spring,,,0,0
+2022-05-24,Wednesday,22,2022,4:00 PM,7:00 PM,,Spring,,,0,0
+2022-05-27,Saturday,22,2022,8:00 AM,2:00 PM,,Spring,,,0,0
+2022-05-31,Wednesday,23,2022,4:00 PM,7:00 PM,,Spring,,,0,0
+2022-06-03,Saturday,23,2022,8:00 AM,2:00 PM,,Summer/Early Fall,49,69,0,0
+2022-06-07,Wednesday,24,2022,4:00 PM,7:00 PM,,Summer/Early Fall,71,82,0,0
+2022-06-10,Saturday,24,2022,8:00 AM,2:00 PM,,Summer/Early Fall,57,76,0,0
+2022-06-14,Wednesday,25,2022,4:00 PM,7:00 PM,,Summer/Early Fall,73,82,0,0
+2022-06-17,Saturday,25,2022,8:00 AM,2:00 PM,,Summer/Early Fall,56,64,0,0
+2022-06-21,Wednesday,26,2022,4:00 PM,7:00 PM,,Summer/Early Fall,68,76,0,0
+2022-06-24,Saturday,26,2022,8:00 AM,2:00 PM,,Summer/Early Fall,65,80,0,0
+2022-06-28,Wednesday,27,2022,4:00 PM,7:00 PM,,Summer/Early Fall,74,85,0,0
+2022-07-01,Saturday,27,2022,8:00 AM,2:00 PM,,Summer/Early Fall,72,79,0,0
+2022-07-05,Wednesday,28,2022,4:00 PM,7:00 PM,,Summer/Early Fall,70,89,0,0
+2022-07-08,Saturday,28,2022,8:00 AM,2:00 PM,,Summer/Early Fall,67,78,0,0
+2022-07-12,Wednesday,29,2022,4:00 PM,7:00 PM,,Summer/Early Fall,77,90,0,0
+2022-07-15,Saturday,29,2022,8:00 AM,2:00 PM,,Summer/Early Fall,65,81,0,0
+2022-07-19,Wednesday,30,2022,4:00 PM,7:00 PM,,Summer/Early Fall,,,0,0
+2022-07-22,Saturday,30,2022,8:00 AM,2:00 PM,,Summer/Early Fall,,,0,0
+2022-07-26,Wednesday,31,2022,4:00 PM,7:00 PM,,Summer/Early Fall,,,0,0
+2022-07-29,Saturday,31,2022,8:00 AM,2:00 PM,,Summer/Early Fall,,,0,0
+2022-08-02,Wednesday,32,2022,4:00 PM,7:00 PM,,Summer/Early Fall,,,1,0
+2022-08-05,Saturday,32,2022,8:00 AM,2:00 PM,,Summer/Early Fall,,,0,0
+2022-08-09,Wednesday,33,2022,4:00 PM,7:00 PM,,Summer/Early Fall,,,0,0
+2022-08-12,Saturday,33,2022,8:00 AM,2:00 PM,,Summer/Early Fall,,,0,0
+2022-08-16,Wednesday,34,2022,4:00 PM,7:00 PM,,Summer/Early Fall,,,0,0
+2022-08-19,Saturday,34,2022,8:00 AM,2:00 PM,,Summer/Early Fall,,,0,0
+2022-08-23,Wednesday,35,2022,4:00 PM,7:00 PM,,Summer/Early Fall,,,0,0
+2022-08-26,Saturday,35,2022,8:00 AM,2:00 PM,,Summer/Early Fall,,,0,0
+2022-08-30,Wednesday,36,2022,4:00 PM,7:00 PM,,Summer/Early Fall,,,0,0
+2022-09-02,Saturday,36,2022,8:00 AM,2:00 PM,,Summer/Early Fall,,,0,0
+2022-09-06,Wednesday,37,2022,4:00 PM,7:00 PM,,Summer/Early Fall,,,0,0
+2022-09-09,Saturday,37,2022,8:00 AM,2:00 PM,,Summer/Early Fall,,,0,0
+2022-09-13,Wednesday,38,2022,4:00 PM,7:00 PM,,Summer/Early Fall,,,0,0
+2022-09-16,Saturday,38,2022,8:00 AM,2:00 PM,,Summer/Early Fall,,,0,0
+2022-09-20,Wednesday,39,2022,4:00 PM,7:00 PM,,Summer/Early Fall,,,0,0
+2022-09-23,Saturday,39,2022,8:00 AM,2:00 PM,,Summer/Early Fall,,,1,0
+2022-09-27,Wednesday,40,2022,4:00 PM,7:00 PM,,Summer/Early Fall,,,0,0
+2022-09-30,Saturday,40,2022,8:00 AM,2:00 PM,,Summer/Early Fall,,,0,0
+2022-10-04,Wednesday,41,2022,4:00 PM,7:00 PM,,Summer/Early Fall,,,0,0
+2022-10-07,Saturday,41,2022,8:00 AM,2:00 PM,,Summer/Early Fall,,,0,0
+2022-10-11,Wednesday,42,2022,4:00 PM,7:00 PM,,Summer/Early Fall,,,0,0
+2022-10-14,Saturday,42,2022,8:00 AM,2:00 PM,,Summer/Early Fall,,,0,0
+2022-10-18,Wednesday,43,2022,4:00 PM,7:00 PM,,Summer/Early Fall,,,0,0
+2022-10-21,Saturday,43,2022,8:00 AM,2:00 PM,,Summer/Early Fall,,,1,0
+2022-10-25,Wednesday,44,2022,4:00 PM,7:00 PM,,Summer/Early Fall,,,0,0
+2022-10-28,Saturday,44,2022,8:00 AM,2:00 PM,,Summer/Early Fall,,,0,0
+2022-11-01,Wednesday,45,2022,4:00 PM,7:00 PM,,Summer/Early Fall,,,0,0
+2022-11-04,Saturday,45,2022,8:00 AM,2:00 PM,,Late Fall/Holiday,,,0,0
+2022-11-08,Wednesday,46,2022,4:00 PM,7:00 PM,,Late Fall/Holiday,,,0,0
+2022-11-11,Saturday,46,2022,8:00 AM,2:00 PM,,Late Fall/Holiday,,,0,0
+2022-11-15,Wednesday,47,2022,4:00 PM,7:00 PM,,Late Fall/Holiday,,,0,0
+2022-11-18,Saturday,47,2022,8:00 AM,2:00 PM,,Late Fall/Holiday,,,0,0
+2022-11-22,Wednesday,48,2022,4:00 PM,7:00 PM,,Late Fall/Holiday,,,0,0
+2022-11-25,Saturday,48,2022,8:00 AM,2:00 PM,,Late Fall/Holiday,,,0,0
+2022-11-29,Wednesday,49,2022,4:00 PM,7:00 PM,,Late Fall/Holiday,,,0,0
+2022-12-02,Saturday,49,2022,8:00 AM,2:00 PM,,Late Fall/Holiday,,,0,0
+2022-12-06,Wednesday,50,2022,4:00 PM,7:00 PM,,Late Fall/Holiday,,,1,0
+2022-12-09,Saturday,50,2022,8:00 AM,2:00 PM,,Late Fall/Holiday,,,0,0
+2022-12-13,Wednesday,51,2022,4:00 PM,7:00 PM,,Late Fall/Holiday,,,1,0
+2022-12-16,Saturday,51,2022,8:00 AM,2:00 PM,,Late Fall/Holiday,,,0,0
+2022-12-20,Wednesday,52,2022,4:00 PM,7:00 PM,,Late Fall/Holiday,,,0,0
+2022-12-23,Saturday,52,2022,8:00 AM,2:00 PM,,Late Fall/Holiday,,,0,0
+2022-12-27,Wednesday,53,2022,4:00 PM,7:00 PM,,Late Fall/Holiday,,,0,0
+2022-12-30,Saturday,53,2022,8:00 AM,2:00 PM,,Late Fall/Holiday,,,0,0
+2023-03-07,Wednesday,10,2023,4:00 PM,7:00 PM,,Spring,,,0,0
+2023-03-10,Saturday,10,2023,8:00 AM,2:00 PM,,Spring,,,0,0
+2023-03-14,Wednesday,11,2023,4:00 PM,7:00 PM,,Spring,,,0,0
+2023-03-17,Saturday,11,2023,8:00 AM,2:00 PM,,Spring,,,0,0
+2023-03-21,Wednesday,12,2023,4:00 PM,7:00 PM,,Spring,,,0,0
+2023-03-24,Saturday,12,2023,8:00 AM,2:00 PM,,Spring,,,0,0
+2023-03-28,Wednesday,13,2023,4:00 PM,7:00 PM,,Spring,,,0,0
+2023-03-31,Saturday,13,2023,8:00 AM,2:00 PM,,Spring,,,0,0
+2023-04-04,Wednesday,14,2023,4:00 PM,7:00 PM,,Spring,,,1,0
+2023-04-07,Saturday,14,2023,8:00 AM,2:00 PM,,Spring,,,0,0
+2023-04-11,Wednesday,15,2023,4:00 PM,7:00 PM,,Spring,,,0,0
+2023-04-14,Saturday,15,2023,8:00 AM,2:00 PM,,Spring,,,0,0
+2023-04-18,Wednesday,16,2023,4:00 PM,7:00 PM,,Spring,,,0,0
+2023-04-21,Saturday,16,2023,8:00 AM,2:00 PM,,Spring,,,1,0
+2023-04-25,Wednesday,17,2023,4:00 PM,7:00 PM,,Spring,,,0,0
+2023-04-28,Saturday,17,2023,8:00 AM,2:00 PM,,Spring,,,0,0
+2023-05-02,Wednesday,18,2023,4:00 PM,7:00 PM,,Spring,,,0,0
+2023-05-05,Saturday,18,2023,8:00 AM,2:00 PM,,Spring,,,0,0
+2023-05-09,Wednesday,19,2023,4:00 PM,7:00 PM,,Spring,,,1,0
+2023-05-12,Saturday,19,2023,8:00 AM,2:00 PM,,Spring,,,1,0
+2023-05-16,Wednesday,20,2023,4:00 PM,7:00 PM,,Spring,,,0,0
+2023-05-19,Saturday,20,2023,8:00 AM,2:00 PM,,Spring,,,0,0
+2023-05-23,Wednesday,21,2023,4:00 PM,7:00 PM,,Spring,,,0,0
+2023-05-26,Saturday,21,2023,8:00 AM,2:00 PM,,Spring,,,1,0
+2023-05-30,Wednesday,22,2023,4:00 PM,7:00 PM,,Spring,,,1,0
+2023-06-02,Saturday,22,2023,8:00 AM,2:00 PM,,Spring,,,0,0
+2023-06-06,Wednesday,23,2023,4:00 PM,7:00 PM,,Summer/Early Fall,,,0,0
+2023-06-09,Saturday,23,2023,8:00 AM,2:00 PM,,Summer/Early Fall,,,0,0
+2023-06-13,Wednesday,24,2023,4:00 PM,7:00 PM,,Summer/Early Fall,,,0,0
+2023-06-16,Saturday,24,2023,8:00 AM,2:00 PM,,Summer/Early Fall,,,0,0
+2023-06-20,Wednesday,25,2023,4:00 PM,7:00 PM,,Summer/Early Fall,,,0,0
+2023-06-23,Saturday,25,2023,8:00 AM,2:00 PM,,Summer/Early Fall,,,0,0
+2023-06-27,Wednesday,26,2023,4:00 PM,7:00 PM,,Summer/Early Fall,,,0,0
+2023-06-30,Saturday,26,2023,8:00 AM,2:00 PM,,Summer/Early Fall,,,0,0
+2023-07-04,Wednesday,27,2023,4:00 PM,7:00 PM,,Summer/Early Fall,,,0,0
+2023-07-07,Saturday,27,2023,8:00 AM,2:00 PM,,Summer/Early Fall,,,0,0
+2023-07-11,Wednesday,28,2023,4:00 PM,7:00 PM,,Summer/Early Fall,,,1,0
+2023-07-14,Saturday,28,2023,8:00 AM,2:00 PM,,Summer/Early Fall,,,1,0
+2023-07-18,Wednesday,29,2023,4:00 PM,7:00 PM,,Summer/Early Fall,,,0,0
+2023-07-21,Saturday,29,2023,8:00 AM,2:00 PM,,Summer/Early Fall,,,0,0
+2023-07-25,Wednesday,30,2023,4:00 PM,7:00 PM,,Summer/Early Fall,,,0,0
+2023-07-28,Saturday,30,2023,8:00 AM,2:00 PM,,Summer/Early Fall,,,0,0
+2023-08-01,Wednesday,31,2023,4:00 PM,7:00 PM,,Summer/Early Fall,,,0,0
+2023-08-04,Saturday,31,2023,8:00 AM,2:00 PM,,Summer/Early Fall,,,0,0
+2023-08-08,Wednesday,32,2023,4:00 PM,7:00 PM,,Summer/Early Fall,,,0,0
+2023-08-11,Saturday,32,2023,8:00 AM,2:00 PM,,Summer/Early Fall,,,0,0
+2023-08-15,Wednesday,33,2023,4:00 PM,7:00 PM,,Summer/Early Fall,,,0,0
+2023-08-18,Saturday,33,2023,8:00 AM,2:00 PM,,Summer/Early Fall,,,0,0
+2023-08-22,Wednesday,34,2023,4:00 PM,7:00 PM,,Summer/Early Fall,,,0,0
+2023-08-25,Saturday,34,2023,8:00 AM,2:00 PM,,Summer/Early Fall,,,0,0
+2023-08-29,Wednesday,35,2023,4:00 PM,7:00 PM,,Summer/Early Fall,,,0,0
+2023-09-01,Saturday,35,2023,8:00 AM,2:00 PM,,Summer/Early Fall,,,0,0
+2023-09-05,Wednesday,36,2023,4:00 PM,7:00 PM,,Summer/Early Fall,,,0,0
+2023-09-08,Saturday,36,2023,8:00 AM,2:00 PM,,Summer/Early Fall,,,0,0
+2023-09-12,Wednesday,37,2023,4:00 PM,7:00 PM,,Summer/Early Fall,,,0,0
+2023-09-15,Saturday,37,2023,8:00 AM,2:00 PM,,Summer/Early Fall,,,0,0
+2023-09-19,Wednesday,38,2023,4:00 PM,7:00 PM,,Summer/Early Fall,,,0,0
+2023-09-22,Saturday,38,2023,8:00 AM,2:00 PM,,Summer/Early Fall,,,0,0
+2023-09-26,Wednesday,39,2023,4:00 PM,7:00 PM,,Summer/Early Fall,,,0,0
+2023-09-29,Saturday,39,2023,8:00 AM,2:00 PM,,Summer/Early Fall,,,0,0
+2023-10-03,Wednesday,40,2023,4:00 PM,7:00 PM,,Summer/Early Fall,,,1,0
+2023-10-06,Saturday,40,2023,8:00 AM,2:00 PM,,Summer/Early Fall,,,0,0
+2023-10-10,Wednesday,41,2023,4:00 PM,7:00 PM,,Summer/Early Fall,,,0,0
+2023-10-13,Saturday,41,2023,8:00 AM,2:00 PM,,Summer/Early Fall,,,0,0
