@@ -159,6 +159,43 @@ SELECT
 product_name || ', ' || product_size_nonull|| ' (' || product_qty_type_nonull || ')'
 FROM CTE_no_null
 
+--====================================================================================================
+-- String manipulations
+/* 1. Some product names in the product table have descriptions like "Jar" or "Organic". 
+These are separated from the product name with a hyphen. 
+Create a column using SUBSTR (and a couple of other commands) that captures these, but is otherwise NULL. 
+Remove any trailing or leading whitespaces. Don't just use a case statement for each product! 
+
+| product_name               | description |
+|----------------------------|-------------|
+| Habanero Peppers - Organic | Organic     |
+
+Hint: you might need to use INSTR(product_name,'-') to find the hyphens. INSTR will help split the column. */
+
+SELECT
+*
+FROM product
+
+SELECT
+*
+SUBSTR(product_name)
+FROM product
+
+SELECT *,
+  TRIM(SUBSTR(product_name, INSTR(product_name, '- ') + 2)) AS product_name_clear,
+  TRIM(SUBSTR(product_name, 1, INSTR(product_name, '- ') - 1)) AS description
+FROM product
+
+SELECT *,
+	INSTR(product_name, '- ') ,
+	INSTR(product_name, '- ')+2 ,
+	SUBSTR(product_name, INSTR(product_name, '- ') + 2),
+  TRIM(SUBSTR(product_name, 1, INSTR(product_name, '- ')-1)) AS product_name_clear,
+  TRIM(SUBSTR(product_name, 1, INSTR(product_name, '- ') - 1)) AS description
+FROM product
+
+/* 2. Filter the query to show any product_size value that contain a number with REGEXP. */
+
 
 --=========================================================================================================\
 /* SECTION 3 */
