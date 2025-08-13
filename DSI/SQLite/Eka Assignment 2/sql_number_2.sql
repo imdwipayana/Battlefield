@@ -223,116 +223,7 @@ FROM product
 
 SELECT * FROM product WHERE product_size REGEXP '\d'
 
---=========================================================================================================\
-/* SECTION 3 */
 
--- Cross Join
-/*1. Suppose every vendor in the `vendor_inventory` table had 5 of each of their products to sell to 
-**every** 
-customer on record. How much money would each vendor make per product? 
-Show this by vendor_name and product name, rather than using the IDs.
-
-HINT: Be sure you select only relevant columns and rows. 
-Remember, CROSS JOIN will explode your table rows, so CROSS JOIN should likely be a subquery. 
-Think a bit about the row counts: how many distinct vendors, product names are there (x)?
-How many customers are there (y). 
-Before your final group by you should have the product of those two queries (x*y).  */
-SELECT DISTINCT
-COUNT(vendor_id)
-FROM vendor
-
-SELECT DISTINCT
-COUNT(product_id)
-FROM product
-
-SELECT DISTINCT
-COUNT(customer_id)
-FROM customer
-
-SELECT
-*
-FROM vendor_inventory
-WHERE product_id = 1
-ORDER BY market_date
-
-SELECT
-*
-FROM customer_purchases
-WHERE product_id = 1
-Order BY market_date
-
-SELECT
-*
-FROM vendor_inventory as vi
-LEFT JOIN vendor as v
-ON v.vendor_id = vi.vendor_id
-LEFT JOIN product as p
-ON p.product_id = vi.product_id
-WHERE vi.product_id = 1
-Order BY vi.market_date
-
-SELECT
-*
-FROM vendor_inventory as vi
-JOIN vendor as v
-ON v.vendor_id = vi.vendor_id
-JOIN product as p
-ON p.product_id = vi.product_id
-WHERE vi.product_id = 1
-Order BY vi.market_date
-
---=============================
-WITH CTE_cross_join AS (
-SELECT
-vendor_name,
-product_name
-FROM vendor_inventory as vi
-LEFT JOIN vendor as v
-ON v.vendor_id = vi.vendor_id
-LEFT JOIN product as p
-ON p.product_id = vi.product_id
-WHERE vi.product_id = 1
-Order BY vi.market_date
-)
-SELECT
-*
-FROM CTE_cross_join
-CROSS JOIN customer_purchases
-
-
-
-
-
---========================================
--- Example CROSS JOIN
---========================================
-
-CREATE TABLE products_trial (
-    product_name TEXT
-);
-
-INSERT INTO products_trial (product_name) VALUES
-('Shirt'),
-('Pants');
-
-CREATE TABLE colors_trial (
-    color_name TEXT
-);
-
-INSERT INTO colors_trial (color_name) VALUES
-('Red'),
-('Blue'),
-('Green');
---==========================================
-SELECT
-    p.product_name,
-    c.color_name
-FROM
-    products_trial AS p
-CROSS JOIN
-    colors_trial AS c;
-
---=========================================
 
 
 
@@ -521,5 +412,195 @@ WITH CTE_rank_market_date AS(
 	ON clmd.product_id = pu.product_id
 
 
+--===========================================================================================================================
+-- The last question unanswered
+--===========================================================================================================================
+--=========================================================================================================\
+/* SECTION 3 */
 
+-- Cross Join
+/*1. Suppose every vendor in the `vendor_inventory` table had 5 of each of their products to sell to 
+**every** 
+customer on record. How much money would each vendor make per product? 
+Show this by vendor_name and product name, rather than using the IDs.
+
+HINT: Be sure you select only relevant columns and rows. 
+Remember, CROSS JOIN will explode your table rows, so CROSS JOIN should likely be a subquery. 
+Think a bit about the row counts: how many distinct vendors, product names are there (x)?
+How many customers are there (y). 
+Before your final group by you should have the product of those two queries (x*y).  */
+
+--===============================================================================
+-- Number of vendor in vendor_inventory table
+--===============================================================================
+SELECT 
+COUNT(DISTINCT vendor_id)
+FROM vendor_inventory;
+
+--===============================================================================
+-- Number of product in vendor_inventory table
+--===============================================================================
+SELECT 
+COUNT(DISTINCT product_id)
+FROM vendor_inventory;
+
+--===============================================================================
+-- Number of customer in customer table
+--===============================================================================
+SELECT 
+COUNT(DISTINCT customer_id)
+FROM customer;
+
+--===============================================================================
+-- Cross join selected column in vendor_inventory and customer tables
+--===============================================================================
+WITH CTE_vendor AS (
+SELECT
+vendor_id,
+product_id,
+original_price
+FROM vendor_inventory
+), CTE_customer AS (
+SELECT
+customer_id
+FROM customer
+)
+SELECT
+    cv.vendor_id,
+	cv.product_id,
+	cv.original_price,
+	cc.customer_id
+FROM
+    CTE_vendor AS cv
+CROSS JOIN
+    CTE_customer AS cc;
+	
+--===========================================
+-- Create CTE for the result of query above to count the sales of vendor on each product sold.
+--===========================================
+WITH CTE_vendor AS (
+	SELECT
+		vendor_id,
+		product_id,
+		original_price
+	FROM vendor_inventory
+), CTE_customer AS (
+	SELECT
+		customer_id
+	FROM customer
+), CTE_cross_join AS (
+	SELECT
+		cv.vendor_id,
+		cv.product_id,
+		cv.original_price,
+		cc.customer_id
+	FROM CTE_vendor AS cv
+	CROSS JOIN CTE_customer AS cc
+)
+
+SELECT 
+	DISTINCT product_id,
+	vendor_id,
+	SUM(original_price) OVER(PARTITION BY product_id ORDER BY vendor_id) AS sales_each_product
+FROM CTE_cross_join
+
+--- FINISH
+
+
+SELECT 
+COUNT(DISTINCT vendor_id)
+FROM vendor
+
+SELECT DISTINCT
+COUNT(product_id)
+FROM product
+
+SELECT DISTINCT
+COUNT(customer_id)
+FROM customer
+
+SELECT
+*
+FROM vendor_inventory
+WHERE product_id = 1
+ORDER BY market_date
+
+SELECT
+*
+FROM customer_purchases
+WHERE product_id = 1
+Order BY market_date
+
+SELECT
+*
+FROM vendor_inventory as vi
+LEFT JOIN vendor as v
+ON v.vendor_id = vi.vendor_id
+LEFT JOIN product as p
+ON p.product_id = vi.product_id
+WHERE vi.product_id = 1
+Order BY vi.market_date
+
+SELECT
+*
+FROM vendor_inventory as vi
+JOIN vendor as v
+ON v.vendor_id = vi.vendor_id
+JOIN product as p
+ON p.product_id = vi.product_id
+WHERE vi.product_id = 1
+Order BY vi.market_date
+
+--=============================
+WITH CTE_cross_join AS (
+SELECT
+vendor_name,
+product_name
+FROM vendor_inventory as vi
+LEFT JOIN vendor as v
+ON v.vendor_id = vi.vendor_id
+LEFT JOIN product as p
+ON p.product_id = vi.product_id
+WHERE vi.product_id = 1
+Order BY vi.market_date
+)
+SELECT
+*
+FROM CTE_cross_join
+CROSS JOIN customer_purchases
+
+
+
+
+
+--========================================
+-- Example CROSS JOIN
+--========================================
+
+CREATE TABLE products_trial (
+    product_name TEXT
+);
+
+INSERT INTO products_trial (product_name) VALUES
+('Shirt'),
+('Pants');
+
+CREATE TABLE colors_trial (
+    color_name TEXT
+);
+
+INSERT INTO colors_trial (color_name) VALUES
+('Red'),
+('Blue'),
+('Green');
+--==========================================
+SELECT
+    p.product_name,
+    c.color_name
+FROM
+    products_trial AS p
+CROSS JOIN
+    colors_trial AS c;
+
+--=========================================
 
