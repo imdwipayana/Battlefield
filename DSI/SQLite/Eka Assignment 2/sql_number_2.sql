@@ -90,7 +90,39 @@ HINT: There are a possibly a few ways to do this query, but if you're struggling
 3) Query the second temp table twice, once for the best day, once for the worst day, 
 with a UNION binding them. */
 
+WITH CTE_purchase AS (
+	SELECT
+		*,
+		quantity * cost_to_customer_per_qty as purchase_each
+	FROM customer_purchases
+), CTE_daily_sales AS (
+	SELECT DISTINCT
+		market_date,
+		SUM(purchase_each) OVER(PARTITION BY market_date) as daily_sales
+	FROM CTE_purchase
+), CTE_sales_minimum AS (
+	SELECT
+		*
+	FROM CTE_daily_sales
+	ORDER BY daily_sales 
+	LIMIT 1
+), CTE_sales_maximum AS (
+	SELECT
+		*
+	FROM CTE_daily_sales
+	ORDER BY daily_sales DESC
+	LIMIT 1
+)
 
+SELECT
+	*
+FROM CTE_sales_minimum
+
+UNION
+
+SELECT
+	*
+FROM CTE_sales_maximum
 
 
 
