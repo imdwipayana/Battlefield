@@ -384,9 +384,75 @@ FROM product_units;
 
 
 
+-- UPDATE
+/* 1.We want to add the current_quantity to the product_units table. 
+First, add a new column, current_quantity to the table using the following syntax.
 
+ALTER TABLE product_units
+ADD current_quantity INT;
 
+Then, using UPDATE, change the current_quantity equal to the last quantity value from the vendor_inventory details.
 
+HINT: This one is pretty hard. 
+First, determine how to get the "last" quantity per product. 
+Second, coalesce null values to 0 (if you don't have null values, figure out how to rearrange your query so you do.) 
+Third, SET current_quantity = (...your select statement...), remembering that WHERE can only accommodate one column. 
+Finally, make sure you have a WHERE statement to update the right row, 
+	you'll need to use product_units.product_id to refer to the correct row within the product_units table. 
+When you have all of these components, you can run the update statement. */
+
+SELECT DISTINCT
+*
+FROM product_units
+
+SELECT DISTINCT
+vendor_id
+FROM vendor_inventory
+
+---=========================
+DROP TABLE IF EXISTS product_units;
+CREATE TABLE product_units AS
+SELECT
+*,
+CURRENT_TIMESTAMP AS snapshoot_timestamp
+FROM product
+WHERE product_qty_type = 'unit';
+
+SELECT
+*
+FROM product_units;
+
+---==========================
+ALTER TABLE product_units 
+ADD COLUMN current_quantity FLOAT;
+--- Last market_date
+WITH CTE_rank_market_date AS(
+	SELECT
+		*,
+		ROW_NUMBER() OVER(PARTITION BY product_id ORDER BY market_date DESC) as rank_market_date
+	FROM vendor_inventory
+), CTE_last_market_date AS (
+	SELECT
+		*
+	FROM CTE_rank_market_date
+	WHERE rank_market_date = 1
+), CTE_update_market_date AS (
+	SELECT
+		*,
+		COALESCE(quantity,0) as current_quantity
+	FROM product_units as pu
+	LEFT JOIN CTE_last_market_date as clmd
+	ON clmd.product_id = pu.product_id
+)
+
+UPDATE product_units AS pu
+SET  current_quantity = cumd.current_quantity
+FROM CTE_update_market_date AS cumd
+WHERE pu.product_id = cumd.product_id;
+
+SELECT
+	*
+FROM product_units;
 
 
 
