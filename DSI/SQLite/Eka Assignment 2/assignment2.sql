@@ -38,12 +38,49 @@ HINT: One of these approaches uses ROW_NUMBER() and one uses DENSE_RANK(). */
 then write another query that uses this one as a subquery (or temp table) and filters the results to 
 only the customer’s most recent visit. */
 
+WITH CTE_visit_number AS(
+	SELECT 
+		customer_id,
+		market_date,
+		DENSE_RANK() OVER(PARTITION BY customer_id ORDER BY market_date DESC) as visit_number
+	FROM customer_purchases
+), CTE_distinct_visit AS(
+
+SELECT 
+	DISTINCT visit_number,
+	customer_id,
+	market_date 
+FROM CTE_visit_number
+)
+
+SELECT
+	customer_id,
+	market_date AS recent_visit
+FROM CTE_distinct_visit
+WHERE visit_number = 1
 
 
 /* 3. Using a COUNT() window function, include a value along with each row of the 
 customer_purchases table that indicates how many different times that customer has purchased that product_id. */
 
-
+WITH  CTE_product AS (
+	SELECT
+		customer_id,
+		product_id,
+		COUNT() OVER(PARTITION BY customer_id, product_id) as product_bought_number
+	FROM customer_purchases
+), CTE_distinct AS (
+   SELECT 
+        DISTINCT product_bought_number,
+        customer_id,
+        product_id
+   FROM CTE_product
+)
+SELECT
+	customer_id,
+	product_id,
+	product_bought_number
+FROM CTE_distinct
 
 -- String manipulations
 /* 1. Some product names in the product table have descriptions like "Jar" or "Organic". 
