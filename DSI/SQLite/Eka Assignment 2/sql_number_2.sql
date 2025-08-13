@@ -409,7 +409,9 @@ SELECT DISTINCT
 vendor_id
 FROM vendor_inventory
 
----=========================
+---============================================
+-- Create product_units table 
+--=========================================
 DROP TABLE IF EXISTS product_units;
 CREATE TABLE product_units AS
 SELECT
@@ -425,7 +427,14 @@ FROM product_units;
 ---==========================
 ALTER TABLE product_units 
 ADD COLUMN current_quantity FLOAT;
+
+SELECT
+*
+FROM product_units
+
 --- Last market_date
+DROP TABLE IF EXISTS TABLE_update_market;
+CREATE TABLE TABLE_update_market AS
 WITH CTE_rank_market_date AS(
 	SELECT
 		*,
@@ -439,23 +448,77 @@ WITH CTE_rank_market_date AS(
 ), CTE_update_market_date AS (
 	SELECT
 		*,
-		COALESCE(quantity,0) as current_quantity
+		COALESCE(clmd.quantity,0) as quantity_nonull
 	FROM product_units as pu
 	LEFT JOIN CTE_last_market_date as clmd
 	ON clmd.product_id = pu.product_id
 )
 
+SELECT
+*
+FROM CTE_update_market_date;
+
+--===========================================
+
+SELECT
+*
+FROM TABLE_update_market;
+---================================
+
 UPDATE product_units AS pu
-SET  current_quantity = cumd.current_quantity
-FROM CTE_update_market_date AS cumd
-WHERE pu.product_id = cumd.product_id;
+SET  current_quantity = tum.quantity_nonull
+FROM TABLE_update_market AS tum
+WHERE pu.product_id = tum.product_id;
 
 SELECT
 	*
 FROM product_units;
 
 
+--==========================================
+-- First CTE
+--=========================================
+	SELECT
+		*,
+		ROW_NUMBER() OVER(PARTITION BY product_id ORDER BY market_date DESC) as rank_market_date
+	FROM vendor_inventory
+	
+	
+--==========================================
+-- Second CTE
+--=========================================
+WITH CTE_rank_market_date AS(
+	SELECT
+		*,
+		ROW_NUMBER() OVER(PARTITION BY product_id ORDER BY market_date DESC) as rank_market_date
+	FROM vendor_inventory
+)
+	SELECT
+		*
+	FROM CTE_rank_market_date
+	WHERE rank_market_date = 1
 
+	
+--==========================================
+-- Third CTE
+--=========================================
+WITH CTE_rank_market_date AS(
+	SELECT
+		*,
+		ROW_NUMBER() OVER(PARTITION BY product_id ORDER BY market_date DESC) as rank_market_date
+	FROM vendor_inventory
+), CTE_last_market_date AS (
+	SELECT
+		*
+	FROM CTE_rank_market_date
+	WHERE rank_market_date = 1
+)
+	SELECT
+		*,
+		COALESCE(clmd.quantity,0) as quantity_nonull
+	FROM product_units as pu
+	LEFT JOIN CTE_last_market_date as clmd
+	ON clmd.product_id = pu.product_id
 
 
 
