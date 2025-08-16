@@ -107,4 +107,22 @@ ON sd.sales_date = cd.sales_date
 
 ORDER BY cd.sales_date;
 
+--=====================================================================
+-- 6. Rewrite CTE as a recursive CTE
+--=====================================================================
+WITH RECURSIVE CTE_date AS (
+SELECT CAST('2025-01-01' AS DATE) AS sales_date
+UNION ALL
+SELECT sales_date + 1
+FROM CTE_date
+WHERE sales_date < CAST('2025-01-07' AS DATE)
+)
+
+SELECT
+	* 
+FROM CTE_date AS cd
+LEFT JOIN sales_data as sd
+ON sd.sales_date = cd.sales_date
+
+ORDER BY cd.sales_date;
 
