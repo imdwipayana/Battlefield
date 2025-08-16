@@ -98,9 +98,17 @@ WHERE category = 'Italian' AND price = (SELECT
 #=============================================================
 # 6. How many dishes are in each category?
 #=============================================================
-
+SELECT
+	category,
+	COUNT(category) AS number_category
+FROM menu_items
+GROUP BY category
 #=============================================================
 # 7. What is the average dish price within each category?
 #=============================================================
-
+SELECT
+	category,
+	ROUND(AVG(price),2) AS average_price
+FROM menu_items
+GROUP BY category
 
