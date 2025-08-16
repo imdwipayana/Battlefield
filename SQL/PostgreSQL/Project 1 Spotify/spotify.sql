@@ -157,12 +157,61 @@ Use a WITH clause to calculate the difference between the highest and lowest ene
 --===================================================================================
 -- 11. Find the top 3 most-viewed tracks for each artist using window functions.
 --===================================================================================
+WITH CTE_rank_view AS (
+SELECT
+*,
+ROW_number() OVER(PARTITION BY artist ORDER BY views DESC) as rank_views
+FROM spotify
+)
+SELECT
+artist,
+track,
+rank_views
+FROM CTE_rank_view
+WHERE rank_views IN (1,2,3)
 
 --===================================================================================
 -- 12. Write a query to find tracks where the liveness score is above the average.
 --===================================================================================
+WITH CTE_liveness AS (
+SELECT
+	*,
+	AVG(liveness) OVER() as average_liveness
+FROM spotify
+)
+SELECT
+	track,
+	liveness
+FROM CTE_liveness
+WHERE liveness > average_liveness
+
 
 --===================================================================================
 -- 13. Use a WITH clause to calculate the difference between the highest and lowest energy values for tracks in each album.
 --===================================================================================
+WITH CTE_energy AS (
+SELECT
+*,
+ROW_NUMBER() OVER(PARTITION BY album ORDER BY energy) as ascending_energy,
+ROW_Number() OVER(PARTITION BY album ORDER BY energy DESC) as descending_energy
+FROM spotify
+), CTE_minimum AS (
+SELECT
+track,
+album,
+energy AS minimum_energy
+FROM CTE_energy
+WHERE ascending_energy = 1
+), CTE_maximum AS (
+SELECT
+track,
+album,
+energy AS maximum_energy
+FROM CTE_energy
+WHERE descending_energy = 1
+)
+
+SELECT
+* 
+FROM CTE_minimum
 
