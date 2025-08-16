@@ -158,16 +158,16 @@ FROM order_details;
 # 10. How many orders were made within this date range?
 #=============================================================
 SELECT
-	COUNT(*) as number_order
+	COUNT(DISTINCT order_id) as number_order
 FROM order_details
-WHERE order_date BETWEEN '1/1/23' AND '1/2/23'
+
 #=============================================================
 # 11. How many items were ordered within this date range?
 #=============================================================
 SELECT
-	COUNT(item_id) AS number_ordered
+	COUNT(DISTINCT item_id) AS number_item_ordered
 FROM order_details
-WHERE order_date BETWEEN '1/1/23' AND '1/1/23'
+
 #=============================================================
 # 12. Which orders had the most number of items?
 #=============================================================
