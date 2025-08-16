@@ -42,6 +42,42 @@ SELECT
 	* 
 FROM final_sales;
 
+--=====================================================================
+-- 3. Generate the series of dates (UNION, UNION ALL)
+--=====================================================================
+SELECT
+	'2025-01-01' AS sales_date
+UNION
+SELECT
+	'2025-01-02' AS sales_date
+UNION
+SELECT
+	'2025-01-03' AS sales_date
+
+ORDER BY sales_date;
+
+--=====================================================================
+-- 4. Join with our original table [subquery, left join, inner join]
+--=====================================================================
+SELECT * FROM (
+SELECT '2025-01-01' AS sales_date
+UNION ALL
+SELECT '2025-01-02' 
+UNION ALL
+SELECT '2025-01-03' 
+UNION ALL
+SELECT '2025-01-04' 
+UNION ALL
+SELECT '2025-01-05' 
+UNION ALL
+SELECT '2025-01-06' 
+UNION ALL
+SELECT '2025-01-07' 
+) AS sq;
+
+
+
+
 
 
 
