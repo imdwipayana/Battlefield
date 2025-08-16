@@ -197,7 +197,7 @@ FROM CTE_more_12
 # 14. Combine the menu_items and order_details tables into a single table.
 #=============================================================
 SELECT
-*
+	*
 FROM order_details AS od
 LEFT JOIN menu_items as mi
 ON od.item_id = mi.menu_item_id
@@ -205,15 +205,74 @@ ON od.item_id = mi.menu_item_id
 #==============================================================================
 # 15. What were the least and most ordered items? What categories were they in?
 #==============================================================================
+# The least ordered item:
+WITH CTE_join_table AS (
+SELECT
+	*
+FROM order_details AS od
+LEFT JOIN menu_items as mi
+ON od.item_id = mi.menu_item_id
+)
+SELECT
+*
+FROM CTE_join_table
+WHERE item_name IS NULL
 
+SELECT
+	item_name,
+	COUNT(item_name) AS item_ordered
+FROM CTE_join_table
+GROUP BY item_name
+ORDER BY COUNT(item_name)
+
+SELECT
+*
+FROM order_details
 #=============================================================
 # 16. What were the top 5 orders that spent the most money?
 #=============================================================
+WITH CTE_join_table AS (
+SELECT
+	*
+FROM order_details AS od
+LEFT JOIN menu_items as mi
+ON od.item_id = mi.menu_item_id
+), CTE_spending AS (
+SELECT DISTINCT
+	order_id,
+	ROUND(SUM(price) OVER(PARTITION BY order_id),2) as spending_each_order
+FROM CTE_join_table
+)
+SELECT
+*
+FROM CTE_spending
+ORDER BY spending_each_order DESC
+LIMIT 5
+
 
 #=============================================================
 # 17. View the details of the highest spend order. What insights can you gather from the results?
 #=============================================================
+WITH CTE_join_table AS (
+SELECT
+	*
+FROM order_details AS od
+LEFT JOIN menu_items as mi
+ON od.item_id = mi.menu_item_id
+), CTE_spending AS (
+SELECT DISTINCT
+	order_id,
+	ROUND(SUM(price) OVER(PARTITION BY order_id),2) as spending_each_order
+FROM CTE_join_table
+)
+SELECT
+*
+FROM CTE_spending 
+ORDER BY spending_each_order DESC
+LIMIT 5
 
+SELECT *
+FROM menu_items
 #=============================================================
 # 18. View the details of the top 5 highest spend orders. What inshights can you gather from the results?
 #=============================================================
