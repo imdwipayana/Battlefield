@@ -173,25 +173,47 @@ FROM order_details
 #=============================================================
 SELECT
 	order_id,
-    COUNT(order_id) as number_item
+    COUNT(item_id) as number_item
 FROM order_details
 GROUP BY order_id
-ORDER BY COUNT(order_id) DESC
+ORDER BY COUNT(item_id) DESC
 #=============================================================
 # 13. How many orders had more than 12 items?
 #=============================================================
 WITH CTE_more_12 AS (
 SELECT
 	order_id,
-    COUNT(order_id) as number_item
+    COUNT(item_id) as number_item
 FROM order_details
 GROUP BY order_id
-HAVING  COUNT(order_id) > 12
-ORDER BY COUNT(order_id) DESC
+HAVING  COUNT(item_id) > 12
+ORDER BY COUNT(item_id) DESC
 )
 SELECT 
 	COUNT(number_item) AS more_12
 FROM CTE_more_12
 
+#=============================================================
+# 14. Combine the menu_items and order_details tables into a single table.
+#=============================================================
+SELECT
+*
+FROM order_details AS od
+LEFT JOIN menu_items as mi
+ON od.item_id = mi.menu_item_id
 
+#==============================================================================
+# 15. What were the least and most ordered items? What categories were they in?
+#==============================================================================
 
+#=============================================================
+# 16. What were the top 5 orders that spent the most money?
+#=============================================================
+
+#=============================================================
+# 17. View the details of the highest spend order. What insights can you gather from the results?
+#=============================================================
+
+#=============================================================
+# 18. View the details of the top 5 highest spend orders. What inshights can you gather from the results?
+#=============================================================
