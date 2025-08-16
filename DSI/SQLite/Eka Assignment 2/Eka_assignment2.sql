@@ -202,13 +202,23 @@ WITH CTE_vendor AS (
 		cc.customer_id
 	FROM CTE_vendor AS cv
 	CROSS JOIN CTE_customer AS cc
+), CTE_5products_sold AS (
+	SELECT
+		*,
+		5 AS number_product_sold
+	FROM CTE_cross_join
+), CTE_total_sales AS (
+	SELECT
+		*,
+		original_price * number_product_sold AS sales_5products
+	FROM CTE_5products_sold
 )
 
 SELECT DISTINCT 
 	product_id,
 	vendor_id,
-	SUM(original_price) OVER(PARTITION BY product_id ORDER BY vendor_id) AS sales_each_product
-FROM CTE_cross_join
+	SUM(sales_5products) OVER(PARTITION BY product_id ORDER BY vendor_id) AS sales_each_product
+FROM CTE_total_sales
 
 -- INSERT
 /*1.  Create a new table "product_units". 
