@@ -60,23 +60,25 @@ ORDER BY sales_date;
 -- 4. Join with our original table [subquery, left join, inner join]
 --=====================================================================
 SELECT * FROM (
-SELECT '2025-01-01' AS sales_date
+SELECT CAST('2025-01-01' AS DATE) AS sales_date
 UNION ALL
-SELECT '2025-01-02' 
+SELECT CAST('2025-01-02' AS DATE) 
 UNION ALL
-SELECT '2025-01-03' 
+SELECT CAST('2025-01-03' AS DATE) 
 UNION ALL
-SELECT '2025-01-04' 
+SELECT CAST('2025-01-04' AS DATE) 
 UNION ALL
-SELECT '2025-01-05' 
+SELECT CAST('2025-01-05' AS DATE)
 UNION ALL
-SELECT '2025-01-06' 
+SELECT CAST('2025-01-06' AS DATE) 
 UNION ALL
-SELECT '2025-01-07' 
-) AS sq;
+SELECT CAST('2025-01-07' AS DATE)
+) AS sq
 
+LEFT JOIN sales_data 
+ON sales_data.sales_date = sq.sales_date
 
-
+ORDER BY sq.sales_date;
 
 
 
