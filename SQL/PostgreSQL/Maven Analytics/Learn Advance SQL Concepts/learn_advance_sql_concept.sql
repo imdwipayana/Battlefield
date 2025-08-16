@@ -126,3 +126,58 @@ ON sd.sales_date = cd.sales_date
 
 ORDER BY cd.sales_date;
 
+--=====================================================================
+-- 7. Fill in the NULL values
+--=====================================================================
+WITH RECURSIVE CTE_date AS (
+SELECT CAST('2025-01-01' AS DATE) AS sales_date
+UNION ALL
+SELECT sales_date + 1
+FROM CTE_date
+WHERE sales_date < CAST('2025-01-07' AS DATE)
+), CTE_average AS (
+SELECT
+AVG(number_sales) AS average_sales
+FROM sales_data
+)
+
+SELECT
+	*,
+	COALESCE(sd.number_sales,0) AS null_sales_0,
+	COALESCE(sd.number_sales, (SELECT average_sales FROM CTE_average)) AS null_sales_avg
+FROM CTE_date AS cd
+LEFT JOIN sales_data as sd
+ON sd.sales_date = cd.sales_date
+
+ORDER BY cd.sales_date;
+
+--=====================================================================
+-- 8. Use Window Function to impute the NULL values
+--=====================================================================
+WITH CTE_recursive AS (
+WITH RECURSIVE CTE_date AS (
+SELECT CAST('2025-01-01' AS DATE) AS sales_date
+UNION ALL
+SELECT sales_date + 1
+FROM CTE_date
+WHERE sales_date < CAST('2025-01-07' AS DATE)
+), CTE_average AS (
+SELECT
+AVG(number_sales) AS average_sales
+FROM sales_data
+)
+
+SELECT
+	cd.sales_date,
+	sd.number_sales
+FROM CTE_date AS cd
+LEFT JOIN sales_data as sd
+ON sd.sales_date = cd.sales_date
+
+ORDER BY cd.sales_date
+)
+SELECT
+	*,
+	COALESCE(number_sales,AVG(number_sales) OVER(ORDER BY sales_date ROWS BETWEEN 1 PRECEDING AND 1 FOLLOWING)) AS average_sales_null
+FROM CTE_recursive;
+
