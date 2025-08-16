@@ -19,7 +19,9 @@ HINT: keep the syntax the same, but edited the correct components with the strin
 The `||` values concatenate the columns into strings. 
 Edit the appropriate columns -- you're making two edits -- and the NULL rows will be fixed. 
 All the other rows will remain the same.) */
-
+--====================================================================================================================
+-- Solution COALESCE.
+--====================================================================================================================
 WITH CTE_no_null AS (
 	SELECT
 		*,
@@ -31,6 +33,10 @@ SELECT
 	product_name || ', ' || product_size_nonull|| ' (' || product_qty_type_nonull || ')'
 FROM CTE_no_null;
 
+--====================================================================================================================
+-- End of solution COALESCE.
+--====================================================================================================================
+
 --Windowed Functions
 /* 1. Write a query that selects from the customer_purchases table and numbers each customer’s  
 visits to the farmer’s market (labeling each market date with a different number). 
@@ -40,7 +46,9 @@ You can either display all rows in the customer_purchases table, with the counte
 each new market date for each customer, or select only the unique market dates per customer 
 (without purchase details) and number those visits. 
 HINT: One of these approaches uses ROW_NUMBER() and one uses DENSE_RANK(). */
-
+--====================================================================================================================
+-- Solution windowed functions number 1.
+--====================================================================================================================
 WITH CTE_visit_number AS(
 	SELECT 
 		customer_id,
@@ -54,11 +62,16 @@ SELECT
 	customer_id,
 	market_date
 FROM CTE_visit_number;
+--====================================================================================================================
+-- End of solution windowed functions number 1.
+--====================================================================================================================
 
 /* 2. Reverse the numbering of the query from a part so each customer’s most recent visit is labeled 1, 
 then write another query that uses this one as a subquery (or temp table) and filters the results to 
 only the customer’s most recent visit. */
-
+--====================================================================================================================
+-- Solution windowed functions number 2.
+--====================================================================================================================
 WITH CTE_visit_number AS(
 	SELECT 
 		customer_id,
@@ -72,10 +85,14 @@ SELECT DISTINCT
 	market_date AS recent_visit
 FROM CTE_visit_number
 WHERE visit_number = 1;
-
+--====================================================================================================================
+-- End of solution windowed functions number 2.
+--====================================================================================================================
 /* 3. Using a COUNT() window function, include a value along with each row of the 
 customer_purchases table that indicates how many different times that customer has purchased that product_id. */
-
+--====================================================================================================================
+-- Solution COUNT 
+--====================================================================================================================
 WITH  CTE_product AS (
 	SELECT
 		customer_id,
@@ -88,7 +105,9 @@ SELECT DISTINCT
 	product_id,
 	product_bought_number
 FROM CTE_product;
-
+--====================================================================================================================
+-- End of solution COUNT
+--====================================================================================================================
 -- String manipulations
 /* 1. Some product names in the product table have descriptions like "Jar" or "Organic". 
 These are separated from the product name with a hyphen. 
@@ -100,7 +119,9 @@ Remove any trailing or leading whitespaces. Don't just use a case statement for 
 | Habanero Peppers - Organic | Organic     |
 
 Hint: you might need to use INSTR(product_name,'-') to find the hyphens. INSTR will help split the column. */
-
+--====================================================================================================================
+-- Solution string manipulation number 1.
+--====================================================================================================================
 WITH CTE_hypen AS (
 SELECT 
 	*,
@@ -118,14 +139,20 @@ SELECT
 		ELSE ''
 	END AS description
 FROM CTE_hypen;
-
+--====================================================================================================================
+-- End of solution string manipulation number 1.
+--====================================================================================================================
 /* 2. Filter the query to show any product_size value that contain a number with REGEXP. */
-
+--====================================================================================================================
+-- Solution string manipulation number 2. 
+--====================================================================================================================
 SELECT 
 	*
 FROM product 
 WHERE product_size REGEXP '\d';
-
+--====================================================================================================================
+-- End of solution string manipulation number 2.
+--====================================================================================================================
 -- UNION
 /* 1. Using a UNION, write a query that displays the market dates with the highest and lowest total sales.
 
@@ -135,7 +162,9 @@ HINT: There are a possibly a few ways to do this query, but if you're struggling
 "best day" and "worst day"; 
 3) Query the second temp table twice, once for the best day, once for the worst day, 
 with a UNION binding them. */
-
+--====================================================================================================================
+-- Solution UNION.
+--====================================================================================================================
 WITH CTE_purchase AS (
 	SELECT
 		*,
@@ -169,7 +198,9 @@ UNION
 SELECT
 	*
 FROM CTE_sales_maximum;
-
+--====================================================================================================================
+-- End of solution UNION.
+--====================================================================================================================
 
 /* SECTION 3 */
 
@@ -183,7 +214,9 @@ Remember, CROSS JOIN will explode your table rows, so CROSS JOIN should likely b
 Think a bit about the row counts: how many distinct vendors, product names are there (x)?
 How many customers are there (y). 
 Before your final group by you should have the product of those two queries (x*y).  */
-
+--====================================================================================================================
+-- Solution of CROSS JOIN
+--====================================================================================================================
 WITH CTE_vendor AS (
 	SELECT
 		vendor_id,
@@ -219,13 +252,17 @@ SELECT DISTINCT
 	vendor_id,
 	SUM(sales_5products) OVER(PARTITION BY product_id ORDER BY vendor_id) AS sales_each_product
 FROM CTE_total_sales
-
+--====================================================================================================================
+-- End of solution CROSS JOIN 
+--====================================================================================================================
 -- INSERT
 /*1.  Create a new table "product_units". 
 This table will contain only products where the `product_qty_type = 'unit'`. 
 It should use all of the columns from the product table, as well as a new column for the `CURRENT_TIMESTAMP`.  
 Name the timestamp column `snapshot_timestamp`. */
-
+--====================================================================================================================
+-- Solution INSERT number 1
+--====================================================================================================================
 DROP TABLE IF EXISTS product_units;
 CREATE TABLE product_units AS
 SELECT
@@ -237,29 +274,39 @@ WHERE product_qty_type = 'unit';
 SELECT
 	*
 FROM product_units;
-
+--====================================================================================================================
+-- End of solution INSERT number 1
+--====================================================================================================================
 /*2. Using `INSERT`, add a new row to the product_units table (with an updated timestamp). 
 This can be any product you desire (e.g. add another record for Apple Pie). */
-
+--====================================================================================================================
+-- Solution INSERT number 2.
+--====================================================================================================================
 INSERT INTO product_units
 VALUES(7,'Big Apple Pie', '20 inch', 3, 'unit', CURRENT_TIMESTAMP);
 
 SELECT
 	* 
 FROM product_units
-
+--====================================================================================================================
+-- End of solution INSERT number 2
+--====================================================================================================================
 -- DELETE
 /* 1. Delete the older record for the whatever product you added. 
 
 HINT: If you don't specify a WHERE clause, you are going to have a bad time.*/
-
+--====================================================================================================================
+-- Solution DELETE.
+--====================================================================================================================
 DELETE FROM product_units 
 WHERE product_name = 'Big Apple Pie';
 
 SELECT
 	*
 FROM product_units;
-
+--====================================================================================================================
+-- End of solution DELETE 
+--====================================================================================================================
 -- UPDATE
 /* 1.We want to add the current_quantity to the product_units table. 
 First, add a new column, current_quantity to the table using the following syntax.
