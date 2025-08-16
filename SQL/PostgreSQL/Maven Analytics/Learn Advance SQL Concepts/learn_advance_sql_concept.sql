@@ -1,27 +1,19 @@
-DROP TABLE IF EXISTS employee_hierarchy;
-CREATE TABLE employee_hierarchy (
-employee_id VARCHAR(10),
-full_name VARCHAR(50),
-manager_id VARCHAR(10)
+DROP TABLE IF EXISTS sales_data;
+CREATE TABLE sales_data (
+sales_date DATE,
+number_sales FLOAT
 );
 
-INSERT INTO employee_hierarchy
+INSERT INTO sales_data
 VALUES 
-('E001',  'Nadine Amizah',  NULL),
-('E002',  'Blake Lively',  'E001'),
-('E003',  'May June',      'E001'),
-('E004',  'May Be',        'E001'),
-('E005',  'Sun Love',      'E002'),
-('E006',  'Moon Shine',    'E002'),
-('E007',  'White Lake',    'E002'),
-('E008',   NULL,            NULL),
-('E009',  'Benny John',    'E003'),
-('E0010',  'Dedy McDonald', 'E003'),
-('E0011', 'Bob Marshall',  'E003'),
-('E0012', 'Alize Well',    'E004'),
-('E0013', 'Anny Angela',   'E004');
+('2025-01-01',  61),
+('2025-01-02',  72),
+('2025-01-04',  84),
+('2025-01-05',  95),
+('2025-01-07',  77);
 
-SELECT * FROM employee_hierarchy;
+
+SELECT * FROM sales_data;
 --===================================================================
 -- List all managers with all of their subordinates. 
 --===================================================================
