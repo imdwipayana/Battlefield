@@ -46,13 +46,13 @@ FROM final_sales;
 -- 3. Generate the series of dates (UNION, UNION ALL)
 --=====================================================================
 SELECT
-	'2025-01-01' AS sales_date
+	CAST('2025-01-01' AS DATE) AS sales_date
 UNION
 SELECT
-	'2025-01-02' AS sales_date
+	CAST('2025-01-02' AS DATE) AS sales_date
 UNION
 SELECT
-	'2025-01-03' AS sales_date
+	CAST('2025-01-03' AS DATE) AS sales_date
 
 ORDER BY sales_date;
 
@@ -80,6 +80,31 @@ ON sales_data.sales_date = sq.sales_date
 
 ORDER BY sq.sales_date;
 
+--=====================================================================
+-- 5. Rewrite subquery as a CTE
+--=====================================================================
+WITH CTE_date AS (
+SELECT CAST('2025-01-01' AS DATE) AS sales_date
+UNION ALL
+SELECT CAST('2025-01-02' AS DATE) 
+UNION ALL
+SELECT CAST('2025-01-03' AS DATE) 
+UNION ALL
+SELECT CAST('2025-01-04' AS DATE) 
+UNION ALL
+SELECT CAST('2025-01-05' AS DATE)
+UNION ALL
+SELECT CAST('2025-01-06' AS DATE) 
+UNION ALL
+SELECT CAST('2025-01-07' AS DATE)
+)
 
+SELECT
+	* 
+FROM CTE_date AS cd
+LEFT JOIN sales_data as sd
+ON sd.sales_date = cd.sales_date
+
+ORDER BY cd.sales_date;
 
 
