@@ -857,6 +857,54 @@ SELECT DISTINCT
 	SUM(original_price) OVER(PARTITION BY product_id ORDER BY vendor_id) AS sales_each_product
 FROM CTE_cross_join
 
+--==========================================================================================================================
+-- Cross Join
+/*1. Suppose every vendor in the `vendor_inventory` table had 5 of each of their products to sell to **every** 
+customer on record. How much money would each vendor make per product? 
+Show this by vendor_name and product name, rather than using the IDs.
+
+HINT: Be sure you select only relevant columns and rows. 
+Remember, CROSS JOIN will explode your table rows, so CROSS JOIN should likely be a subquery. 
+Think a bit about the row counts: how many distinct vendors, product names are there (x)?
+How many customers are there (y). 
+Before your final group by you should have the product of those two queries (x*y).  */
+
+WITH CTE_vendor AS (
+	SELECT
+		vendor_id,
+		product_id,
+		original_price
+	FROM vendor_inventory
+), CTE_customer AS (
+	SELECT
+		customer_id
+	FROM customer
+), CTE_cross_join AS (
+	SELECT
+		cv.vendor_id,
+		cv.product_id,
+		cv.original_price,
+		cc.customer_id
+	FROM CTE_vendor AS cv
+	CROSS JOIN CTE_customer AS cc
+), CTE_5products_sold AS (
+	SELECT
+		*,
+		5 AS number_product_sold
+	FROM CTE_cross_join
+), CTE_total_sales AS (
+	SELECT
+		*,
+		original_price * number_product_sold AS sales_5products
+	FROM CTE_5products_sold
+)
+
+SELECT DISTINCT 
+	product_id,
+	vendor_id,
+	SUM(sales_5products) OVER(PARTITION BY product_id ORDER BY vendor_id) AS sales_each_product
+FROM CTE_total_sales
+
 
 
 
