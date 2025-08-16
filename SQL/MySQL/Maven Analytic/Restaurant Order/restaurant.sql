@@ -214,20 +214,13 @@ LEFT JOIN menu_items as mi
 ON od.item_id = mi.menu_item_id
 )
 SELECT
-*
+item_name,
+category,
+COUNT(order_id) AS number_ordered
 FROM CTE_join_table
-WHERE item_name IS NULL
+GROUP BY item_name, category
+ORDER BY COUNT(order_id) DESC
 
-SELECT
-	item_name,
-	COUNT(item_name) AS item_ordered
-FROM CTE_join_table
-GROUP BY item_name
-ORDER BY COUNT(item_name)
-
-SELECT
-*
-FROM order_details
 #=============================================================
 # 16. What were the top 5 orders that spent the most money?
 #=============================================================
@@ -264,15 +257,19 @@ SELECT DISTINCT
 	order_id,
 	ROUND(SUM(price) OVER(PARTITION BY order_id),2) as spending_each_order
 FROM CTE_join_table
-)
+), CTE_highest_spending AS (
 SELECT
-*
+	*
 FROM CTE_spending 
 ORDER BY spending_each_order DESC
 LIMIT 5
+)
+SELECT
+*
+FROM CTE_highest_spending AS chs
+LEFT JOIN CTE_join_table AS cjt
+ON chs.order_id = cjt.order_id
 
-SELECT *
-FROM menu_items
-#=============================================================
+#========================================================================================================
 # 18. View the details of the top 5 highest spend orders. What inshights can you gather from the results?
-#=============================================================
+#========================================================================================================
