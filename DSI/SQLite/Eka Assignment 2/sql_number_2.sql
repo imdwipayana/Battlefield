@@ -906,13 +906,153 @@ SELECT DISTINCT
 FROM CTE_total_sales
 
 
+--==========================================================================================================================
+-- INSERT
+/*1.  Create a new table "product_units". 
+This table will contain only products where the `product_qty_type = 'unit'`. 
+It should use all of the columns from the product table, as well as a new column for the `CURRENT_TIMESTAMP`.  
+Name the timestamp column `snapshot_timestamp`. */
+--====================================================================================================================
+-- Solution INSERT number 1
+--====================================================================================================================
+DROP TABLE IF EXISTS product_units;
+CREATE TABLE product_units AS
+SELECT
+	*,
+	CURRENT_TIMESTAMP AS snapshoot_timestamp
+FROM product
+WHERE product_qty_type = 'unit';
+
+SELECT
+	*
+FROM product_units;
+--====================================================================================================================
+-- End of solution INSERT number 1
+--====================================================================================================================
+/*2. Using `INSERT`, add a new row to the product_units table (with an updated timestamp). 
+This can be any product you desire (e.g. add another record for Apple Pie). */
+--====================================================================================================================
+-- Solution INSERT number 2.
+--====================================================================================================================
+INSERT INTO product_units
+VALUES(7,'Big Apple Pie', '20 inch', 3, 'unit', CURRENT_TIMESTAMP);
+
+SELECT
+	* 
+FROM product_units
+--====================================================================================================================
+-- End of solution INSERT number 2
+--====================================================================================================================
+-- DELETE
+/* 1. Delete the older record for the whatever product you added. 
+
+HINT: If you don't specify a WHERE clause, you are going to have a bad time.*/
+--====================================================================================================================
+-- Solution DELETE.
+--====================================================================================================================
+DELETE FROM product_units 
+WHERE product_name = 'Big Apple Pie';
+
+SELECT
+	*
+FROM product_units;
+--====================================================================================================================
+-- End of solution DELETE 
+--====================================================================================================================
+-- UPDATE
+/* 1.We want to add the current_quantity to the product_units table. 
+First, add a new column, current_quantity to the table using the following syntax.
+
+ALTER TABLE product_units
+ADD current_quantity INT;
+
+Then, using UPDATE, change the current_quantity equal to the last quantity value from the vendor_inventory details.
+
+HINT: This one is pretty hard. 
+First, determine how to get the "last" quantity per product. 
+Second, coalesce null values to 0 (if you don't have null values, figure out how to rearrange your query so you do.) 
+Third, SET current_quantity = (...your select statement...), remembering that WHERE can only accommodate one column. 
+Finally, make sure you have a WHERE statement to update the right row, 
+	you'll need to use product_units.product_id to refer to the correct row within the product_units table. 
+When you have all of these components, you can run the update statement. */
+
+--===========================================================================================
+-- Create a new column called current_quantity in product_units table
+--===========================================================================================
+ALTER TABLE product_units 
+ADD COLUMN current_quantity INT;
+
+--===========================================================================================
+-- Create a new table called TABLE_update_market contains current_quantity throught 3 CTEs
+--===========================================================================================
+DROP TABLE IF EXISTS TABLE_update_market;
+CREATE TABLE TABLE_update_market AS
+WITH CTE_rank_market_date AS(
+	SELECT
+		*,
+		ROW_NUMBER() OVER(PARTITION BY product_id ORDER BY market_date DESC) as rank_market_date
+	FROM vendor_inventory
+), CTE_last_market_date AS (
+	SELECT
+		*
+	FROM CTE_rank_market_date
+	WHERE rank_market_date = 1
+), CTE_update_market_date AS (
+	SELECT
+		*,
+		COALESCE(clmd.quantity,0) as quantity_nonull
+	FROM product_units as pu
+	LEFT JOIN CTE_last_market_date as clmd
+	ON clmd.product_id = pu.product_id
+)
+
+SELECT
+*
+FROM CTE_update_market_date;
+
+--===============================================================================================================
+-- Update the current_quantity column of product_units table with quantity_nonull column from TABLE_update_market
+--===============================================================================================================
+
+UPDATE product_units AS pu
+SET  current_quantity = tum.quantity_nonull
+FROM TABLE_update_market AS tum
+WHERE pu.product_id = tum.product_id;
+
+--===============================================================================================================
+-- Result of current_quantity column from product_units has been updated succesfully.
+--===============================================================================================================
+SELECT
+	*
+FROM product_units;
 
 
 
 
 
 
-
-
+DROP TABLE IF EXISTS TABLE_update_market;
+CREATE TABLE TABLE_update_market AS
+WITH CTE_rank_market_date AS(
+	SELECT
+		*,
+		ROW_NUMBER() OVER(PARTITION BY product_id ORDER BY market_date DESC) as rank_market_date
+	FROM vendor_inventory
+), CTE_last_market_date AS (
+	SELECT
+		*
+	FROM CTE_rank_market_date
+	WHERE rank_market_date = 1
+), CTE_update_market_date AS (
+	SELECT
+		*,
+		COALESCE(clmd.quantity,0) as quantity_nonull
+	FROM product_units as pu
+	LEFT JOIN CTE_last_market_date as clmd
+	ON clmd.product_id = pu.product_id
+)
+SELECT
+*
+FROM CTE_update_market_date;
 
 
