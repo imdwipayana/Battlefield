@@ -1,6 +1,6 @@
 # Varius lerning resources:
 ## Supervised Machine Learning algorithms:
-### 1. [K Nearest Neoghbors(KNN)](https://github.com/imdwipayana/Machine-Learning-Algorithm/blob/main/KNN(K-NearestNeighbors)/KNN(K-NearestNeighbors).ipynb)
+### 1. K Nearest Neoghbors(KNN) click [here](https://github.com/imdwipayana/Machine-Learning-Algorithm/blob/main/KNN(K-NearestNeighbors)/KNN(K-NearestNeighbors).ipynb)
 
 ### 2. [Vector Support Machine(SVM)]()
 
