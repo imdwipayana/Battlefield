@@ -19,6 +19,9 @@ CREATE TABLE IF NOT EXISTS sales (
     gross_income DECIMAL(12, 4),
     rating FLOAT(2, 1)
 )
+/*
+Then import data from csv file.
+*/
 
 SELECT
 *
