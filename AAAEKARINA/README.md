@@ -6,7 +6,13 @@
 
 ### 2. K-Nearest Neoghbors(KNN) click [here](https://github.com/imdwipayana/Machine-Learning-Algorithm/blob/main/KNN(K-NearestNeighbors)/KNN(K-NearestNeighbors).ipynb)
 
-### 3. [Logistic Regression)]()
+### 3. Logistic Regression
+
+### 4. Naive Bayes
+
+### 5. Random Forest
+
+### 6. Neural Network
 
 
 ## Feature Engineering:
