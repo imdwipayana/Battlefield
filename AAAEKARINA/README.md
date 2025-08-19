@@ -2,9 +2,9 @@
 ## Supervised Machine Learning algorithms:
 
 
-### 2. Vector Support Machine(SVM) click [here](https://github.com/imdwipayana/Machine-Learning-Algorithm/tree/main/KNN(K-NearestNeighbors))
+### 1. Vector Support Machine(SVM) click [here](https://github.com/imdwipayana/Machine-Learning-Algorithm/tree/main/KNN(K-NearestNeighbors))
 
-### 1. K Nearest Neoghbors(KNN) click [here](https://github.com/imdwipayana/Machine-Learning-Algorithm/blob/main/KNN(K-NearestNeighbors)/KNN(K-NearestNeighbors).ipynb)
+### 2. K-Nearest Neoghbors(KNN) click [here](https://github.com/imdwipayana/Machine-Learning-Algorithm/blob/main/KNN(K-NearestNeighbors)/KNN(K-NearestNeighbors).ipynb)
 
 ### 3. [Logistic Regression)]()
 
