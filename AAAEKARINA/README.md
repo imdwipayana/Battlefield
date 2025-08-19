@@ -10,9 +10,11 @@
 
 ### 4. Naive Bayes
 
-### 5. Random Forest
+### 5. Decision Tree
 
-### 6. Neural Network
+### 6. Random Forest
+
+### 7. Neural Network
 
 
 ## Feature Engineering:
