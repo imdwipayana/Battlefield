@@ -1,4 +1,4 @@
-# Various lerning resources:
+# Various learning resources:
 ## Supervised Machine Learning algorithms:
 
 
