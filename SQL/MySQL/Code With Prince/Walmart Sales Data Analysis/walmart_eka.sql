@@ -208,6 +208,46 @@ SELECT DISTINCT
 	AVG(rating) OVER(PARTITION BY product_line) as average_rating
 FROM sales
 
+#==========================================================================================================================
+# Number of sales each weekday
+#==========================================================================================================================
+WITH CTE_day_sales AS(
+SELECT
+*,
+DAYNAME(date) as day_sales
+FROM sales
+)
+SELECT
+day_sales,
+SUM(total) as total_sales
+FROM CTE_day_sales
+GROUP BY day_sales
+
+#==========================================================================================================================
+# Which of the customer types that bring the most revenue?
+#==========================================================================================================================
+SELECT
+	customer_type,
+	SUM(total) as total_sales
+FROM sales
+GROUP BY customer_type 
+ORDER BY total_sales DESC
+LIMIT 1
+
+#==========================================================================================================================
+# Which city has the largest tax percent(VAT)?
+#==========================================================================================================================
+SELECT
+	city,
+    customer_type,
+    product_line,
+    ROUND((tax_pct/unit_price)*100,2) as tax_percentage
+FROM sales
+
+SELECT
+*
+FROM sales
+
 
 
 
