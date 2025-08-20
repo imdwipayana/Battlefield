@@ -237,16 +237,44 @@ LIMIT 1
 #==========================================================================================================================
 # Which city has the largest tax percent(VAT)?
 #==========================================================================================================================
+WITH CTE_max_tax AS (
 SELECT
 	city,
     customer_type,
     product_line,
     ROUND((tax_pct/unit_price)*100,2) as tax_percentage
 FROM sales
-
+)
 SELECT
-*
+	*
+FROM CTE_max_tax
+ORDER BY tax_percentage DESC
+
+#==========================================================================================================================
+# Which customer type pay the most in VAT?
+#==========================================================================================================================
+SELECT
+	customer_type,
+	ROUND(SUM(tax_pct),2) as total_tax
 FROM sales
+GROUP BY customer_type 
+ORDER BY total_tax DESC
+
+#==========================================================================================================================
+# How many unique customer type in the data?
+#==========================================================================================================================
+SELECT
+	COUNT(DISTINCT customer_type)
+FROM sales
+
+
+
+
+SELECT * FROM sales
+
+
+
+
 
 
 
