@@ -68,5 +68,20 @@ GROUP BY payment
 ORDER BY number_payment_method DESC
 LIMIT 1
 
+#==================================================================================================
+# What is the most product line sold?
+#==================================================================================================
+SELECT
+	product_line,
+    SUM(quantity) as number_sold
+FROM sales
+GROUP BY product_line
+ORDER BY number_sold
+LIMIT 1
+
+#==================================================================================================
+# What is the total revenue by month?
+#==================================================================================================
+
 
 
