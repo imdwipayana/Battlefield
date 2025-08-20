@@ -82,6 +82,72 @@ LIMIT 1
 #==================================================================================================
 # What is the total revenue by month?
 #==================================================================================================
+WITH CTE_month_sales AS (
+SELECT
+	*,
+	MONTHNAME(date) as month_sales
+FROM sales
+)
+SELECT
+	month_sales,
+    SUM(total) as total_revenue
+FROM CTE_month_sales
+GROUP BY month_sales
+
+#==================================================================================================
+# What month had the highest COGS?
+#==================================================================================================
+WITH CTE_monthly_sales AS (
+SELECT
+*,
+MONTHNAME(date) as monthly_sales
+FROM sales
+)
+SELECT
+	monthly_sales,
+	SUM(cogs) as monthly_cogs
+FROM CTE_monthly_sales
+GROUP BY monthly_sales
+ORDER BY monthly_cogs DESC
+LIMIT 1
+
+#==================================================================================================
+# What product line had the largest revenue?
+#==================================================================================================
+SELECT
+	product_line,
+	SUM(total) as total_revenue
+FROM sales
+GROUP BY product_line
+ORDER BY total_revenue DESC
+LIMIT 1
+
+#==================================================================================================
+# What city has the largest revenue?
+#==================================================================================================
+SELECT
+	city,
+    SUM(total) as total_revenue
+FROM sales
+GROUP by city
+ORDER BY total_revenue DESC
+LIMIT 1
+
+#==================================================================================================
+# What product line had the highest VAT?
+#==================================================================================================
+SELECT
+	product_line,
+    SUM(tax_pct) as total_vat
+FROM sales
+GROUP BY product_line
+ORDER BY total_vat DESC
+LIMIT 1
+
+#==================================================================================================
+# What product line had the highest VAT?
+#==================================================================================================
+
 
 
 
