@@ -200,8 +200,13 @@ SELECT
 FROM CTE_ranking_gender 
 WHERE ranking_gender = 1
 
-
-
+#==========================================================================================================================
+# What is the average rating of each product line?
+#==========================================================================================================================
+SELECT DISTINCT
+	product_line,
+	AVG(rating) OVER(PARTITION BY product_line) as average_rating
+FROM sales
 
 
 
