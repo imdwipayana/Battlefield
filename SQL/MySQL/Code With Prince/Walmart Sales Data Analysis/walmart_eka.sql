@@ -163,16 +163,23 @@ SELECT
 FROM CTE_average_compare
 
 #==========================================================================================================================
-# Which brand sold product more than the average product sold?
+# Which branch sold product more than the average product sold?
 #==========================================================================================================================
-SELECT
-*
+WITH CTE_branch_category As (
+SELECT DISTINCT
+	branch,
+	AVG(total) OVER() AS total_average,
+	AVG(total) OVER(PARTITION BY branch) as branch_average
 FROM sales
-
+)
 SELECT
- *,
-FROM sales
+	*
+FROM CTE_branch_category
+WHERE branch_average > total_average
 
+#==========================================================================================================================
+# What is the most common product line by gender?
+#==========================================================================================================================
 
 
 
