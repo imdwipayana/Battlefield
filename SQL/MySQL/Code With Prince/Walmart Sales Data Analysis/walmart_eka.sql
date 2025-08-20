@@ -26,3 +26,24 @@ Then import data from csv file.
 SELECT
 *
 FROM sales
+
+#==================================================================================================
+# Create category for when the sales happened. Divide into morning, afternoon and evening. 
+# Then create column to represent the day and month the sales happened.
+#==================================================================================================
+SELECT
+*,
+CASE
+	WHEN time BETWEEN '00:00:00' AND '11:59:59' THEN 'morning'
+    WHEN time BETWEEN '12:00:00' AND '16:59:59' THEN 'afternoon'
+    ELSE 'evening' 
+END as day_category,
+DAYNAME(date) as day_sales,
+MONTHNAME(date) as month_sales
+FROM sales
+LIMIT 10
+
+
+
+
+
