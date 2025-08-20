@@ -267,10 +267,93 @@ SELECT
 	COUNT(DISTINCT customer_type)
 FROM sales
 
+#==========================================================================================================================
+# How many unique payment method usually custumer use?
+#==========================================================================================================================
+SELECT
+	COUNT(DISTINCT payment)
+FROM sales
 
+#==========================================================================================================================
+# What is the most common customer type?
+#==========================================================================================================================
+SELECT
+	customer_type,
+    COUNT(*) AS number_customer
+FROM sales
+GROUP BY customer_type
+ORDER BY number_customer DESC
 
+#==========================================================================================================================
+# Which customer type spend the most?
+#==========================================================================================================================
+SELECT
+	customer_type,
+    SUM(total) as total_spending
+FROM sales
+GROUP BY customer_type
+ORDER BY total_spending DESC
 
-SELECT * FROM sales
+#==========================================================================================================================
+# What is the gender of most customers?
+#==========================================================================================================================
+SELECT
+	gender,
+    COUNT(*) as total_in_gender
+FROM sales
+GROUP BY gender
+ORDER BY total_in_gender DESC
+
+#==========================================================================================================================
+# What is the customer's gender distribution per branch?
+#==========================================================================================================================
+SELECT
+	branch,
+    gender,
+    COUNT(*) as number_of_customer
+FROM sales
+GROUP BY branch, gender
+ORDER BY branch
+
+#==========================================================================================================================
+# Which time of the day do customers give the highest rating?
+#==========================================================================================================================
+WITH CTE_day_category AS (
+SELECT
+	*,
+	CASE
+		WHEN time BETWEEN '00:00:00' AND '11:59:59' THEN 'morning'
+		WHEN time BETWEEN '12:00:00' AND '16:59:59' THEN 'afternoon'
+		ELSE 'evening' 
+	END as day_category
+FROM sales
+)
+SELECT
+	day_category,
+    AVG(rating) as average_rating
+FROM CTE_day_category
+GROUP BY day_category
+ORDER BY average_rating DESC
+
+#==========================================================================================================================
+# Which time of the day do customers give the highest rating for each branch?
+#==========================================================================================================================
+WITH CTE_day_category AS (
+SELECT
+	*,
+	CASE
+		WHEN time BETWEEN '00:00:00' AND '11:59:59' THEN 'morning'
+		WHEN time BETWEEN '12:00:00' AND '16:59:59' THEN 'afternoon'
+		ELSE 'evening' 
+	END as day_category
+FROM sales
+)
+SELECT DISTINCT
+	branch,
+    city,
+	day_category,
+	AVG(rating) OVER(Partition BY branch, day_category) as average_rating
+FROM CTE_day_category
 
 
 
