@@ -355,9 +355,45 @@ SELECT DISTINCT
 	AVG(rating) OVER(Partition BY branch, day_category) as average_rating
 FROM CTE_day_category
 
+#==========================================================================================================================
+# Which day of the week do customers give the highest rating?
+#==========================================================================================================================
+WITH CTE_day_name AS (
+SELECT
+	*,
+	DAYNAME(date) as day_name
+FROM sales
+), CTE_average_rating AS (
+SELECT DISTINCT
+	day_name,
+	AVG(rating) OVER(Partition BY day_name) as average_rating
+FROM CTE_day_name
+)
+SELECT
+*
+FROM CTE_average_rating
+ORDER BY average_rating DESC
 
-
-
+#==========================================================================================================================
+# Which day of the week do customers give the highest rating for each branch?
+#==========================================================================================================================
+WITH CTE_day_name AS (
+SELECT
+	*,
+	DAYNAME(date) as day_name
+FROM sales
+), CTE_average_rating AS (
+SELECT DISTINCT
+	branch,
+    city,
+	day_name,
+	AVG(rating) OVER(Partition BY branch, day_name) as average_rating
+FROM CTE_day_name
+)
+SELECT
+	*
+FROM CTE_average_rating
+ORDER BY average_rating DESC
 
 
 
