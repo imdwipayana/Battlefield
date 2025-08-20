@@ -180,9 +180,25 @@ WHERE branch_average > total_average
 #==========================================================================================================================
 # What is the most common product line by gender?
 #==========================================================================================================================
-
-
-
+WITH CTE_gender_popular AS (
+	SELECT
+		gender,
+		product_line,
+		SUM(quantity) as quantity_sold
+	FROM sales
+	GROUP BY gender, product_line
+), CTE_ranking_gender AS (
+	SELECT 
+		*,
+		ROW_NUMBER() OVER(PARTITION BY gender) as ranking_gender
+	FROM CTE_gender_popular
+)
+SELECT
+	gender,
+	product_line,
+	quantity_sold
+FROM CTE_ranking_gender 
+WHERE ranking_gender = 1
 
 
 
