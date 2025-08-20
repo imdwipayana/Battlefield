@@ -145,8 +145,22 @@ ORDER BY total_vat DESC
 LIMIT 1
 
 #==================================================================================================
-# What product line had the highest VAT?
+# Categorize product line into good and bad sales. Good sales where its average sales is greater than the average of sales.
 #==================================================================================================
+WITH CTE_average_compare AS (
+SELECT DISTINCT
+	product_line,
+	AVG(total) OVER(PARTITION BY product_line) as average_sales_product,
+    AVG(total) OVER() as average_total
+FROM sales
+)
+SELECT
+	*,
+    CASE
+		WHEN average_sales_product > average_total THEN 'good'
+        ELSE 'bad'
+	END AS sales_category
+FROM CTE_average_compare
 
 
 
