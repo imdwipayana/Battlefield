@@ -43,10 +43,30 @@ SELECT
 FROM sales
 
 #==================================================================================================
-# Create category for when the sales happened. Divide into morning, afternoon and evening. 
-# Then create column to represent the day and month the sales happened.
+# How many unique city the sales has?
 #==================================================================================================
+SELECT
+	COUNT(DISTINCT city)
+FROM sales
 
+#==================================================================================================
+# What city is every brach located?
+#==================================================================================================
+SELECT DISTINCT
+    branch,
+    city
+FROM sales
+
+#==================================================================================================
+# What is the most commont payment method?
+#==================================================================================================
+SELECT 
+	payment,
+	COUNT(payment) as number_payment_method
+FROM sales
+GROUP BY payment
+ORDER BY number_payment_method DESC
+LIMIT 1
 
 
 
