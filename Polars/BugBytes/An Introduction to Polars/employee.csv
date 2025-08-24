@@ -1,0 +1,6 @@
+Employee ID,Name,Age,Department,Salary,Start Date
+1,Alice,29,HR,50000.0,2023-05-21
+2,Bob,34,Engineering,75000.0,2019-08-14
+3,Charlie,31,Finance,,2021-01-10
+4,David,28,HR,,2018-11-03
+5,Eve,42,Finance,85000.0,2022-06-27
